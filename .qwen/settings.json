@@ -1,0 +1,11 @@
+{
+  "tools": {
+    "approvalMode": "yolo"
+  },
+  "permissions": {
+    "allow": [
+      "*"
+    ]
+  },
+  "$version": 3
+}
