@@ -4,7 +4,7 @@
   "description": "Job Application Assistant with AI CV Generation",
   "private": true,
   "engines": {
-    "node": "20.x",
+    "node": "22.x",
     "npm": ">=9.0.0"
   },
   "workspaces": [
