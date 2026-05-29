@@ -208,7 +208,7 @@ router.post('/events', authMiddleware, asyncHandler(async (req: Request, res: Re
  */
 router.put('/events/:id', authMiddleware, asyncHandler(async (req: Request, res: Response) => {
     const userId = String(req.user!._id);
-    const eventId = req.params.id;
+    const eventId = req.params.id as string;
     const event = await updateEvent(userId, eventId, req.body);
     res.json(event);
 }));
@@ -220,7 +220,7 @@ router.put('/events/:id', authMiddleware, asyncHandler(async (req: Request, res:
  */
 router.delete('/events/:id', authMiddleware, asyncHandler(async (req: Request, res: Response) => {
     const userId = String(req.user!._id);
-    const eventId = req.params.id;
+    const eventId = req.params.id as string;
     await deleteCalendarEvent(userId, eventId);
 
     // Clear reminder status on any linked work entry

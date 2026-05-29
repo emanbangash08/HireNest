@@ -8,7 +8,7 @@ import { NotFoundError } from '../utils/errors/AppError';
  * Get a material by share token (public access, no auth required)
  */
 export const getSharedMaterial = async (req: any, res: Response) => {
-    const { token } = req.params;
+    const token = req.params.token as string;
 
     const material = await getMaterialByShareToken(token);
     if (!material) {

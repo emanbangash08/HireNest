@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { ActiveReviewTab } from './reviewTabs';
 
 interface ReviewTabsNavigationProps {
@@ -35,7 +35,7 @@ const ReviewTabsNavigation: React.FC<ReviewTabsNavigationProps> = ({
               <div
                 className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 ${
                   isActive
-                    ? 'bg-[#006241] shadow-lg shadow-[rgba(0,98,65,0.2)] scale-110'
+                    ? 'bg-[var(--accent)] shadow-lg shadow-[rgba(79,70,229,0.2)] scale-110'
                     : 'bg-white shadow-sm group-hover:scale-110'
                 }`}
               >
@@ -50,7 +50,7 @@ const ReviewTabsNavigation: React.FC<ReviewTabsNavigationProps> = ({
               <span
                 className={`text-xs font-bold transition-colors duration-200 ${
                   isActive
-                    ? 'text-[#006241]'
+                    ? 'text-[var(--accent)]'
                     : 'text-[rgba(0,0,0,0.38)] group-hover:text-[rgba(0,0,0,0.87)]'
                 }`}
               >
@@ -65,3 +65,4 @@ const ReviewTabsNavigation: React.FC<ReviewTabsNavigationProps> = ({
 };
 
 export default ReviewTabsNavigation;
+

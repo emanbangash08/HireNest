@@ -154,7 +154,7 @@ router.put(
     '/:id',
     asyncHandler(async (req: Request, res: Response) => {
         const userId = String(req.user!._id);
-        const { id } = req.params;
+        const id = req.params.id as string;
         const { matchedCompanyName, matchedJobTitle, jobApplicationId, suggestedStatus, emailCategory, calendarEvent } = req.body;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -367,7 +367,7 @@ router.post(
     '/:id/add-note',
     asyncHandler(async (req: Request, res: Response) => {
         const userId = String(req.user!._id);
-        const { id } = req.params;
+        const id = req.params.id as string;
         const includeEmailLink: boolean = req.body?.includeEmailLink !== false; // default true
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -420,7 +420,7 @@ router.post(
     '/:id/accept',
     asyncHandler(async (req: Request, res: Response) => {
         const userId = String(req.user!._id);
-        const { id } = req.params;
+        const id = req.params.id as string;
         const includeCalendarEvent: boolean = req.body?.includeCalendarEvent !== false; // default true
         const includeEmailLink: boolean = req.body?.includeEmailLink !== false; // default true
 
@@ -533,7 +533,7 @@ router.post(
     '/:id/reject',
     asyncHandler(async (req: Request, res: Response) => {
         const userId = String(req.user!._id);
-        const { id } = req.params;
+        const id = req.params.id as string;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             res.status(400).json({ message: 'Invalid suggestion ID.' });

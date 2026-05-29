@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { JobApplication } from '../../services/jobApi';
 import { JobRecommendation } from '../../services/jobRecommendationApi';
 import { parseMultipleUrls } from '../../lib/utils';
@@ -47,13 +47,13 @@ const ReviewPageHeader: React.FC<ReviewPageHeaderProps> = ({
   const jobUrls = parseMultipleUrls(jobApplication.jobUrl || '');
 
   const statusConfig: Record<string, { text: string; colorClass: string }> = {
-    'Applied': { text: 'Applied', colorClass: 'text-[#006241]' },
+    'Applied': { text: 'Applied', colorClass: 'text-[var(--accent)]' },
     'Not Applied': { text: 'Not Applied', colorClass: 'text-[rgba(0,0,0,0.38)]' },
-    'Interview': { text: 'Interview', colorClass: 'text-[#006241]' },
+    'Interview': { text: 'Interview', colorClass: 'text-[var(--accent)]' },
     'Assessment': { text: 'Assessment', colorClass: 'text-[#d4a017]' },
     'Rejected': { text: 'Rejected', colorClass: 'text-[#c82014]' },
     'Closed': { text: 'Closed', colorClass: 'text-[rgba(0,0,0,0.38)]' },
-    'Offer': { text: 'Offer', colorClass: 'text-[#006241]' },
+    'Offer': { text: 'Offer', colorClass: 'text-[var(--accent)]' },
   };
 
   const status = statusConfig[jobApplication.status] || { text: jobApplication.status, colorClass: 'text-[rgba(0,0,0,0.38)]' };
@@ -99,7 +99,7 @@ const ReviewPageHeader: React.FC<ReviewPageHeaderProps> = ({
             {recommendation && recommendation.score !== null && recommendation.score !== undefined ? (
               <button
                 onClick={onOpenRecommendationModal}
-                className="flex items-center gap-2 px-4 py-1.5 border border-[#006241] text-[#006241] hover:bg-[rgba(0,98,65,0.05)] rounded-pill font-bold transition-all group"
+                className="flex items-center gap-2 px-4 py-1.5 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent-bg)] rounded-pill font-bold transition-all group"
                 title="Click to view AI Application Advice"
               >
                 <span className="text-sm">{recommendation.score}%</span>
@@ -111,7 +111,7 @@ const ReviewPageHeader: React.FC<ReviewPageHeaderProps> = ({
               <button
                 onClick={onCalculateMatch}
                 disabled={isLoadingRecommendation || !jobApplication.jobDescriptionText}
-                className="flex items-center gap-2 px-4 py-1.5 border border-[#006241] text-[#006241] hover:bg-[rgba(0,98,65,0.05)] rounded-pill font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 px-4 py-1.5 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent-bg)] rounded-pill font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 title={!jobApplication.jobDescriptionText ? 'Add job description first' : 'Click to calculate match (2 credits)'}
               >
                 {isLoadingRecommendation ? (
@@ -140,7 +140,7 @@ const ReviewPageHeader: React.FC<ReviewPageHeaderProps> = ({
                 href={jobUrls[0]}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 flex items-center justify-center border border-[rgba(0,98,65,0.2)] rounded-xl text-[#006241] hover:bg-[#006241] hover:text-white transition-all duration-200"
+                className="w-11 h-11 flex items-center justify-center border border-[rgba(79,70,229,0.2)] rounded-xl text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-all duration-200"
                 title={`View Job Posting${jobUrls.length > 1 ? ` (${jobUrls.length} URLs)` : ''}`}
               >
                 <span className="material-symbols-outlined text-[20px]">open_in_new</span>
@@ -150,7 +150,7 @@ const ReviewPageHeader: React.FC<ReviewPageHeaderProps> = ({
             {jobApplication.status === 'Not Applied' && (
               <button
                 onClick={onMarkAsApplied}
-                className="w-11 h-11 flex items-center justify-center bg-[rgba(0,98,65,0.08)] text-[#006241] hover:bg-[#006241] hover:text-white transition-all duration-200 rounded-xl"
+                className="w-11 h-11 flex items-center justify-center bg-[var(--accent-bg)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-all duration-200 rounded-xl"
                 title="Mark this job as Applied"
               >
                 <span className="material-symbols-outlined text-[20px]">check_circle</span>
@@ -172,3 +172,4 @@ const ReviewPageHeader: React.FC<ReviewPageHeaderProps> = ({
 };
 
 export default ReviewPageHeader;
+

@@ -71,7 +71,7 @@ export const triggerWorkflow = async (req: Request, res: Response) => {
 export const getWorkflowStatus = async (req: Request, res: Response) => {
     try {
         const userId = (req.user as any)._id.toString();
-        const { runId } = req.params;
+        const runId = req.params.runId as string;
 
         const run = await WorkflowRun.findOne({
             _id: new mongoose.Types.ObjectId(runId),
@@ -96,7 +96,7 @@ export const getWorkflowStatus = async (req: Request, res: Response) => {
 export const cancelWorkflow = async (req: Request, res: Response) => {
     try {
         const userId = (req.user as any)._id.toString();
-        const { runId } = req.params;
+        const runId = req.params.runId as string;
 
         const run = await WorkflowRun.findOne({
             _id: new mongoose.Types.ObjectId(runId),
@@ -201,7 +201,7 @@ export const getAutoJobs = async (req: Request, res: Response) => {
 export const getAutoJobById = async (req: Request, res: Response) => {
     try {
         const userId = (req.user as any)._id.toString();
-        const { id } = req.params;
+        const id = req.params.id as string;
 
         const job = await JobApplication.findOne({
             _id: new mongoose.Types.ObjectId(id),
@@ -231,7 +231,7 @@ export const getAutoJobById = async (req: Request, res: Response) => {
 export const promoteAutoJob = async (req: Request, res: Response) => {
     try {
         const userId = (req.user as any)._id.toString();
-        const { id } = req.params;
+        const id = req.params.id as string;
 
         // Find auto job (already a JobApplication with isAutoJob=true, not soft-deleted)
         const jobApplication = await JobApplication.findOne({
@@ -270,7 +270,7 @@ export const promoteAutoJob = async (req: Request, res: Response) => {
 export const deleteAutoJob = async (req: Request, res: Response) => {
     try {
         const userId = (req.user as any)._id.toString();
-        const { id } = req.params;
+        const id = req.params.id as string;
 
         const result = await JobApplication.findOneAndUpdate(
             {

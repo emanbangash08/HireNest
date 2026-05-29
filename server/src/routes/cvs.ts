@@ -248,7 +248,7 @@ No text, explanation, or commentary before or after the JSON block.
  * Get all CV branches for the current user
  */
 router.get('/branches', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id as string;
+    const userId = String(req.user!._id);
     const lite = req.query.lite === '1' || req.query.lite === 'true';
 
     const branches = await CV.getBaseCvs(userId);
@@ -299,8 +299,8 @@ router.get('/branches', asyncHandler(async (req: Request, res: Response) => {
  * Get jobs that use a specific base CV
  */
 router.get('/:cvId/usage', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id as string;
-    const { cvId } = req.params;
+    const userId = String(req.user!._id);
+    const cvId = req.params.cvId as string;
 
     // Verify the CV belongs to this user and is a base CV
     const cv = await CV.findOne({ _id: cvId, userId, jobApplicationId: null });
@@ -329,7 +329,7 @@ router.get('/:cvId/usage', asyncHandler(async (req: Request, res: Response) => {
  * Get the most recently created base CV for the current user
  */
 router.get('/master', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id as string;
+    const userId = String(req.user!._id);
 
     // Return most recently created base CV (no job association)
     const baseCv = await CV.findOne({ userId, jobApplicationId: null }).sort({ createdAt: -1 });
@@ -368,7 +368,7 @@ router.get('/master', asyncHandler(async (req: Request, res: Response) => {
  * Create a new CV branch
  */
 router.post('/create-branch', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id as string;
+    const userId = String(req.user!._id);
     const { sourceCvId, category, displayName } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(sourceCvId)) {
@@ -430,8 +430,8 @@ router.post('/create-branch', asyncHandler(async (req: Request, res: Response) =
  * Set a base CV as default
  */
 router.patch('/:id/set-primary', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id as string;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');
@@ -456,8 +456,8 @@ router.patch('/:id/set-primary', asyncHandler(async (req: Request, res: Response
  * Get a specific CV by ID
  */
 router.get('/:id', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');
@@ -502,8 +502,8 @@ router.get('/:id', asyncHandler(async (req: Request, res: Response) => {
  * More robust than deleting by _id when the client state may be stale.
  */
 router.delete('/job/:jobId', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const { jobId } = req.params;
+    const userId = String(req.user!._id);
+    const jobId = req.params.jobId as string;
 
     if (!mongoose.Types.ObjectId.isValid(jobId)) {
         throw new ValidationError('Invalid job ID');
@@ -529,8 +529,8 @@ router.delete('/job/:jobId', asyncHandler(async (req: Request, res: Response) =>
  * Get the CV for a specific job application
  */
 router.get('/job/:jobId', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const jobId = req.params.jobId;
+    const userId = String(req.user!._id);
+    const jobId = req.params.jobId as string;
 
     if (!mongoose.Types.ObjectId.isValid(jobId)) {
         throw new ValidationError('Invalid job ID');
@@ -583,7 +583,7 @@ router.post(
     usageLimiter('cvParsing'),
     upload.single('cvFile'),
     asyncHandler(async (req: Request, res: Response) => {
-        const userId = req.user!._id;
+        const userId = String(req.user!._id);
 
         if (!req.file) {
             throw new ValidationError('No CV file uploaded.');
@@ -646,8 +646,8 @@ router.post(
  * Create a job-specific CV (copies from the primary CV if no body provided)
  */
 router.post('/job/:jobId', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const jobId = req.params.jobId;
+    const userId = String(req.user!._id);
+    const jobId = req.params.jobId as string;
 
     if (!mongoose.Types.ObjectId.isValid(jobId)) {
         throw new ValidationError('Invalid job ID');
@@ -722,7 +722,7 @@ router.post(
     usageLimiter('cvParsing'),
     upload.single('cvFile'),
     asyncHandler(async (req: Request, res: Response) => {
-        const userId = req.user!._id;
+        const userId = String(req.user!._id);
         const { category, displayName } = req.body;
 
         if (!req.file) {
@@ -790,8 +790,8 @@ router.post(
  * Selecting from the base CV list copies both JSON and the original binary.
  */
 router.post('/job/:jobId/from-base', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const { jobId } = req.params;
+    const userId = String(req.user!._id);
+    const jobId = req.params.jobId as string;
     const { baseCvId, templateId } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(jobId)) {
@@ -861,8 +861,8 @@ router.post(
     '/job/:jobId/upload',
     upload.single('cvFile'),
     asyncHandler(async (req: Request, res: Response) => {
-        const userId = req.user!._id;
-        const { jobId } = req.params;
+        const userId = String(req.user!._id);
+        const jobId = req.params.jobId as string;
 
         if (!mongoose.Types.ObjectId.isValid(jobId)) {
             throw new ValidationError('Invalid job ID');
@@ -910,8 +910,8 @@ router.post(
  * Update a CV by ID
  */
 router.put('/:id', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');
@@ -988,8 +988,8 @@ router.put('/:id', asyncHandler(async (req: Request, res: Response) => {
  * Toggle star status for a CV
  */
 router.patch('/:id/star', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');
@@ -1018,8 +1018,8 @@ router.patch('/:id/star', asyncHandler(async (req: Request, res: Response) => {
  * Restore editable cvJson from immutable originalCvJson snapshot.
  */
 router.post('/:id/reset-from-source', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');
@@ -1064,8 +1064,8 @@ router.post('/:id/reset-from-source', asyncHandler(async (req: Request, res: Res
  * Delete a CV by ID
  */
 router.delete('/:id', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');
@@ -1091,8 +1091,8 @@ router.delete('/:id', asyncHandler(async (req: Request, res: Response) => {
  * Promote a job CV to become the default base CV
  */
 router.post('/:id/promote', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id as string;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');
@@ -1120,8 +1120,8 @@ router.post('/:id/promote', asyncHandler(async (req: Request, res: Response) => 
  * Generate PDF preview for a CV
  */
 router.post('/:id/preview', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');
@@ -1158,12 +1158,42 @@ router.post('/:id/preview', asyncHandler(async (req: Request, res: Response) => 
 }));
 
 /**
+ * GET /api/cvs/:id/download
+ * Generate and download a CV as a PDF file attachment
+ */
+router.get('/:id/download', asyncHandler(async (req: Request, res: Response) => {
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
+
+    if (!mongoose.Types.ObjectId.isValid(cvId)) {
+        throw new ValidationError('Invalid CV ID');
+    }
+
+    const cv = await CV.findOne({ _id: cvId, userId });
+    if (!cv) {
+        throw new NotFoundError('CV not found');
+    }
+
+    if (!cv.cvJson) {
+        return res.status(400).json({ message: 'This CV has no data to generate a PDF from.' });
+    }
+
+    const pdfBuffer = await generateCvPdfBuffer(cv.cvJson, { lang: 'en', pageFormat: 'a4' });
+    const filename = `${(cv.displayName || 'cv').replace(/[^a-z0-9_\-]/gi, '_')}.pdf`;
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Length', pdfBuffer.length);
+    return res.send(pdfBuffer);
+}));
+
+/**
  * PATCH /api/cvs/:id/rename
  * Rename a CV branch
  */
 router.patch('/:id/rename', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
     const { displayName, category } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
@@ -1206,8 +1236,8 @@ router.patch('/:id/rename', asyncHandler(async (req: Request, res: Response) => 
  * Return the raw stored PDF binary as base64 for in-browser preview.
  */
 router.get('/:id/original-pdf', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id as string;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');
@@ -1229,8 +1259,8 @@ router.get('/:id/original-pdf', asyncHandler(async (req: Request, res: Response)
  * Body: { pdfBase64: string } - base64-encoded PDF binary
  */
 router.put('/:id/edited-pdf', asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id as string;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');
@@ -1267,8 +1297,8 @@ router.put('/:id/edited-pdf', asyncHandler(async (req: Request, res: Response) =
  * Body: { descriptor: CvSectionDescriptor, sectionData: any, customInstructions?: string }
  */
 router.post('/:id/improve-section-dynamic', usageLimiter('analysis'), asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!._id as string;
-    const cvId = req.params.id;
+    const userId = String(req.user!._id);
+    const cvId = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(cvId)) {
         throw new ValidationError('Invalid CV ID');

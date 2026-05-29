@@ -723,3 +723,17 @@ export const resetCvFromSource = async (cvId: string): Promise<UpdateCvResponse>
         throw { message: 'An unknown error occurred resetting the CV from source.' };
     }
 };
+
+export const downloadCvPdf = async (cvId: string, filename: string = 'cv.pdf'): Promise<void> => {
+    const response = await axios.get(`${API_BASE_URL}/${cvId}/download`, {
+        responseType: 'blob',
+    });
+    const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+};

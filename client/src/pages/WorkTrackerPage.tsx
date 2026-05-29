@@ -2725,9 +2725,19 @@ const WorkTrackerPage: React.FC = () => {
  <div className="py-6 md:py-8 max-w-7xl mx-auto space-y-8">
 
  {/* Page header */}
- <div>
- <h1 className="text-3xl font-extrabold text-green tracking-tight">Time Tracker</h1>
- <p className="text-slate-500 mt-1">Plan and log your working hours across employers.</p>
+ <div className="relative rounded-2xl overflow-hidden border px-6 py-5" style={{ background: 'var(--bg-surface)', borderColor: 'var(--border)' }}>
+ <div className="absolute inset-0 pointer-events-none overflow-hidden">
+ <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
+ <defs><pattern id="work-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="var(--accent)" /></pattern></defs>
+ <rect width="100%" height="100%" fill="url(#work-dots)" />
+ </svg>
+ <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-[0.04]" style={{ backgroundColor: 'var(--accent)' }} />
+ </div>
+ <div className="relative z-10">
+ <p className="text-[11px] uppercase tracking-[0.12em] font-semibold mb-1" style={{ color: 'var(--accent)' }}>Productivity</p>
+ <h1 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>Time Tracker</h1>
+ <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Plan and log your working hours across employers.</p>
+ </div>
  </div>
 
  {/* Stats grid */}

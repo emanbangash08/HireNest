@@ -122,7 +122,7 @@ function parseExtractionResponse(responseText: string): ExtractedJobData {
         const parsed = JSON.parse(extractedJsonString);
         // Basic validation - check for essential fields (allow null for jobDescriptionText as fallback)
         if (typeof parsed.jobTitle === 'string' &&
-            typeof parsed.companyName === 'string' &&
+            (typeof parsed.companyName === 'string' || parsed.companyName === null) &&
             (typeof parsed.jobDescriptionText === 'string' || parsed.jobDescriptionText === null) &&
             typeof parsed.language === 'string') {
             // If jobDescriptionText is null, provide a fallback
@@ -259,8 +259,8 @@ export async function extractJobDataFromUrl(url: string, userId: string): Promis
 
     // Add final check for essential nulls after AI processing
     // Note: jobDescriptionText may have been set to a fallback value in parseExtractionResponse
-    if (!extractedData.jobTitle || !extractedData.companyName || !extractedData.jobDescriptionText || !extractedData.language) {
-        console.warn("AI failed to extract one or more essential fields (Title, Company, Description, Language). Extracted:", extractedData);
+    if (!extractedData.jobTitle || !extractedData.jobDescriptionText || !extractedData.language) {
+        console.warn("AI failed to extract one or more essential fields (Title, Description, Language). Extracted:", extractedData);
         throw new Error("AI could not extract all essential job details from the page.");
     }
 
@@ -355,7 +355,7 @@ export async function extractJobDataFromText(rawText: string, userId: string): P
         const extractedData = parseExtractionResponse(responseText);
 
         // Validate essential fields
-        if (!extractedData.jobTitle || !extractedData.companyName || !extractedData.jobDescriptionText || !extractedData.language) {
+        if (!extractedData.jobTitle || !extractedData.jobDescriptionText || !extractedData.language) {
             console.warn("AI failed to extract essential fields from pasted text. Extracted:", extractedData);
             throw new Error("Could not extract all essential job details from the pasted text. Please paste more complete job information.");
         }

@@ -116,7 +116,8 @@ export function setupTranscriptionWebSocket(server: Server) {
           }
 
           try {
-            transcriber.sendAudio(audioChunk);
+            const ab = audioChunk.buffer.slice(audioChunk.byteOffset, audioChunk.byteOffset + audioChunk.byteLength);
+            transcriber.sendAudio(ab);
           } catch (err) {
             const message = (err as Error)?.message || '';
             const closedSocketRace = message.includes('Socket is not open for communication');

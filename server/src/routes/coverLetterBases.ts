@@ -194,7 +194,7 @@ router.post(
 // ---------------------------------------------------------------------------
 router.put('/:id', asyncHandler(async (req: Request, res: Response) => {
     const userId = req.user!._id;
-    const { id } = req.params;
+    const id = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(id)) throw new ValidationError('Invalid ID.');
 
@@ -230,7 +230,7 @@ router.put('/:id', asyncHandler(async (req: Request, res: Response) => {
 // ---------------------------------------------------------------------------
 router.delete('/:id', asyncHandler(async (req: Request, res: Response) => {
     const userId = req.user!._id;
-    const { id } = req.params;
+    const id = req.params.id as string;
 
     if (!mongoose.Types.ObjectId.isValid(id)) throw new ValidationError('Invalid ID.');
 
@@ -248,7 +248,7 @@ router.delete('/:id', asyncHandler(async (req: Request, res: Response) => {
 // ---------------------------------------------------------------------------
 router.get('/job/:jobId', asyncHandler(async (req: Request, res: Response) => {
     const userId = req.user!._id;
-    const { jobId } = req.params;
+    const jobId = req.params.jobId as string;
 
     if (!mongoose.Types.ObjectId.isValid(jobId)) throw new ValidationError('Invalid job ID.');
 
@@ -285,7 +285,8 @@ router.get('/job/:jobId', asyncHandler(async (req: Request, res: Response) => {
 // ---------------------------------------------------------------------------
 router.post('/job/:jobId/from-base/:clId', asyncHandler(async (req: Request, res: Response) => {
     const userId = req.user!._id;
-    const { jobId, clId } = req.params;
+    const jobId = req.params.jobId as string;
+    const clId = req.params.clId as string;
 
     if (!mongoose.Types.ObjectId.isValid(jobId)) throw new ValidationError('Invalid job ID.');
     if (!mongoose.Types.ObjectId.isValid(clId)) throw new ValidationError('Invalid cover letter ID.');
@@ -353,7 +354,7 @@ router.post(
     upload.single('clFile'),
     asyncHandler(async (req: Request, res: Response) => {
         const userId = String(req.user!._id);
-        const { jobId } = req.params;
+        const jobId = req.params.jobId as string;
 
         if (!mongoose.Types.ObjectId.isValid(jobId)) throw new ValidationError('Invalid job ID.');
         if (!req.file) throw new ValidationError('No file uploaded.');
@@ -403,7 +404,7 @@ router.post(
 // ---------------------------------------------------------------------------
 router.post('/job/:jobId/save-current', asyncHandler(async (req: Request, res: Response) => {
     const userId = req.user!._id;
-    const { jobId } = req.params;
+    const jobId = req.params.jobId as string;
 
     if (!mongoose.Types.ObjectId.isValid(jobId)) throw new ValidationError('Invalid job ID.');
 

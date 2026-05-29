@@ -595,22 +595,27 @@ const InterviewMaterialsPage: React.FC = () => {
   // Render
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: V.bgBase, fontFamily: "'Manrope', sans-serif", letterSpacing: '-0.01em', color: V.textPrimary }}>
+    <div className="min-h-screen" style={{ backgroundColor: V.bgBase, letterSpacing: '-0.01em', color: V.textPrimary }}>
       <main className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-14">
 
         {/* Title Section */}
-        <header className="mb-8">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: S.light }}>
-              <span className="material-symbols-outlined text-xl" style={{ color: V.accent }}>library_books</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight" style={{ color: V.accent }}>
+        <header className="relative mb-8 rounded-2xl overflow-hidden border px-6 py-5" style={{ background: 'var(--bg-surface)', borderColor: 'var(--border)' }}>
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
+              <defs><pattern id="prep-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="var(--accent)" /></pattern></defs>
+              <rect width="100%" height="100%" fill="url(#prep-dots)" />
+            </svg>
+            <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-[0.04]" style={{ backgroundColor: 'var(--accent)' }} />
+          </div>
+          <div className="relative z-10">
+            <p className="text-[11px] uppercase tracking-[0.12em] font-semibold mb-1" style={{ color: V.accent }}>Interview Prep</p>
+            <h1 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: 'var(--font-display)', color: V.textPrimary }}>
               Prep Library
             </h1>
+            <p className="text-sm mt-1" style={{ color: V.textSecondary }}>
+              Your preparation guides, case studies, and reference documents — all in one place.
+            </p>
           </div>
-          <p className="text-sm font-normal max-w-2xl" style={{ color: V.textSecondary }}>
-            Manage your preparation guides, case studies, and reference documents in one place.
-          </p>
         </header>
 
         {/* Upload Section */}

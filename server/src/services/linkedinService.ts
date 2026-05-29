@@ -109,36 +109,70 @@ export const getUsernameFromUrl = (url: string | null | undefined): string | nul
 };
 
 /**
- * Fetch LinkedIn profile using Apify API
- * @param userId - User ID (required to get their Apify token)
- * @param username - LinkedIn username
+ * Fetch LinkedIn profile using RapidAPI "Fresh LinkedIn Profile Data" endpoint.
+ * Uses the same JSEARCH_API_KEY (RapidAPI key) already used for job search.
+ * @param userId - User ID (used to retrieve the API key)
+ * @param username - LinkedIn username (e.g. "johndoe")
  */
 export const fetchLinkedInProfile = async (userId: string, username: string): Promise<LinkedInProfileData | null> => {
-  const apiToken = await getApifyToken(userId);
+  const rapidApiKey = await getApifyToken(userId);
 
-  const apiUrl = `https://api.apify.com/v2/acts/apimaestro~linkedin-profile-detail/run-sync-get-dataset-items?token=${apiToken}`;
-  const requestBody = { username, includeEmail: true };
+  const linkedInUrl = `https://www.linkedin.com/in/${username}/`;
+  const apiUrl = `https://fresh-linkedin-profile-data.p.rapidapi.com/get-linkedin-profile?linkedin_url=${encodeURIComponent(linkedInUrl)}&include_skills=true&include_certifications=false&include_publications=false&include_honors=false&include_volunteers=false&include_projects=false&include_patents=false&include_courses=false&include_organizations=false`;
 
   const response = await fetch(apiUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(requestBody),
+    method: 'GET',
+    headers: {
+      'x-rapidapi-host': 'fresh-linkedin-profile-data.p.rapidapi.com',
+      'x-rapidapi-key': rapidApiKey,
+    },
   });
 
   if (!response.ok) {
     const errorText = await response.text();
     throw new InternalServerError(
-      `Apify actor start failed: ${response.status} ${response.statusText} - Response Body: ${errorText}`
+      `LinkedIn profile fetch failed: ${response.status} ${response.statusText} - ${errorText}`
     );
   }
 
-  const runData = await response.json();
+  const data = await response.json();
+  const profile = data?.data ?? data;
 
-  if (!Array.isArray(runData) || runData.length === 0) {
+  if (!profile || typeof profile !== 'object') {
     return null;
   }
 
-  return runData[0] as LinkedInProfileData;
+  // Normalise Fresh LinkedIn Profile Data response to LinkedInProfileData shape
+  return {
+    basic_info: {
+      fullname: profile.full_name ?? profile.fullName ?? profile.name,
+      headline: profile.headline ?? profile.title,
+      about: profile.about ?? profile.summary,
+      location: {
+        full: profile.location ?? profile.geo?.full,
+        city: profile.city ?? profile.geo?.city,
+        country: profile.country ?? profile.geo?.country,
+      },
+      profile_picture_url:
+        profile.profile_picture_url ?? profile.profilePicture ?? profile.photo_url,
+    },
+    experience: (profile.experiences ?? profile.experience ?? profile.positions ?? []).map((exp: any) => ({
+      title: exp.title,
+      company: exp.company ?? exp.companyName ?? exp.company_name,
+      description: exp.description,
+      location: exp.location,
+      start_date: exp.start_date ?? (exp.start ? { year: exp.start.year, month: String(exp.start.month ?? '') } : undefined),
+      end_date: exp.end_date ?? (exp.end ? { year: exp.end.year, month: String(exp.end.month ?? '') } : undefined),
+      is_current: exp.is_current ?? exp.end == null,
+    })),
+    skills: (profile.skills ?? []).map((s: any) =>
+      typeof s === 'string' ? s : s.name ?? s.title ?? ''
+    ),
+    languages: (profile.languages ?? []).map((l: any) => ({
+      language: l.name ?? l.language,
+      proficiency: l.proficiency,
+    })),
+  } as LinkedInProfileData;
 };
 
 /**

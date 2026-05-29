@@ -1,6 +1,6 @@
 /* client/src/index.css */
-/* Starbucks-Inspired Warm Light Design System */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800;900&display=swap');
+/* HireNest — Clean Professional Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,49 +8,49 @@
 
 @layer base {
   :root {
-    /* Warm cream canvas */
-    --bg-base: #f2f0eb;
+    /* Clean slate canvas */
+    --bg-base: #F0F4FF;
     --bg-surface: #ffffff;
-    --bg-elevated: #edebe9;
-    --bg-raised: #e8e6e1;
+    --bg-elevated: #EEF2FF;
+    --bg-raised: #E0E7FF;
 
-    /* Warm gray borders */
-    --border: #d4d0c8;
-    --border-subtle: #e8e6e1;
-    --border-bright: #c4bfb5;
+    /* Cool blue-gray borders */
+    --border: #C7D2FE;
+    --border-subtle: #E0E7FF;
+    --border-bright: #A5B4FC;
 
-    /* Text — WCAG AA compliant on #f2f0eb background */
-    --text-primary: rgba(0, 0, 0, 0.87);
-    --text-secondary: rgba(0, 0, 0, 0.65);
-    --text-muted: rgba(0, 0, 0, 0.55);
+    /* Text — WCAG AA compliant */
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #94A3B8;
 
-    /* Four-tier green system */
-    --accent: #006241;
-    --accent-hover: #00754A;
-    --accent-dim: #00754A;
+    /* Indigo accent system */
+    --accent: #4F46E5;
+    --accent-hover: #4338CA;
+    --accent-dim: #6366F1;
     --accent-text: #ffffff;
     --text-on-accent: #ffffff;
-    --accent-bg: rgba(0, 98, 65, 0.08);
-    --accent-bg-hover: rgba(0, 98, 65, 0.16);
+    --accent-bg: rgba(79, 70, 229, 0.08);
+    --accent-bg-hover: rgba(79, 70, 229, 0.16);
 
     /* Semantic colors */
-    --success: #006241;
-    --error: #c82014;
-    --warning: #d4a017;
-    --info: #1E3932;
+    --success: #059669;
+    --error: #DC2626;
+    --warning: #D97706;
+    --info: #2563EB;
 
     /* Named status colors */
-    --jade: #006241;
-    --jade-bg: rgba(0, 98, 65, 0.08);
-    --rose: #c82014;
-    --rose-bg: rgba(200, 32, 20, 0.08);
-    --ember: #d4a017;
-    --ember-bg: rgba(212, 160, 23, 0.08);
-    --azure: #1E3932;
-    --amber: #cba258;
+    --jade: #059669;
+    --jade-bg: rgba(5, 150, 105, 0.08);
+    --rose: #DC2626;
+    --rose-bg: rgba(220, 38, 38, 0.08);
+    --ember: #D97706;
+    --ember-bg: rgba(217, 119, 6, 0.08);
+    --azure: #2563EB;
+    --amber: #F59E0B;
 
     /* Font families */
-    --font-display: 'Lora', Georgia, serif;
+    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
     --font-body: 'Inter', system-ui, sans-serif;
   }
 
@@ -69,8 +69,8 @@
   }
 
   body {
-    background-color: #f2f0eb;
-    color: rgba(0, 0, 0, 0.87);
+    background-color: #F0F4FF;
+    color: #0F172A;
   }
 
   /* Heading font */
@@ -303,19 +303,19 @@
   .badge-jade {
     background-color: var(--jade-bg);
     color: var(--jade);
-    border: 1px solid rgba(0, 98, 65, 0.2);
+    border: 1px solid rgba(5, 150, 105, 0.2);
   }
 
   .badge-rose {
     background-color: var(--rose-bg);
     color: var(--rose);
-    border: 1px solid rgba(200, 32, 20, 0.2);
+    border: 1px solid rgba(220, 38, 38, 0.2);
   }
 
   .badge-ember {
     background-color: var(--ember-bg);
-    color: #8a6d1b;
-    border: 1px solid rgba(212, 160, 23, 0.2);
+    color: #92400e;
+    border: 1px solid rgba(217, 119, 6, 0.2);
   }
 
   .badge-ink {
@@ -440,7 +440,7 @@
   /* ========== TOAST / ALERTS ========== */
   .alert-success {
     background-color: var(--jade-bg);
-    border: 1px solid rgba(0, 98, 65, 0.2);
+    border: 1px solid rgba(5, 150, 105, 0.2);
     color: var(--jade);
     border-radius: 12px;
     padding: 0.75rem 1rem;
@@ -448,7 +448,7 @@
 
   .alert-error {
     background-color: var(--rose-bg);
-    border: 1px solid rgba(200, 32, 20, 0.2);
+    border: 1px solid rgba(220, 38, 38, 0.2);
     color: var(--rose);
     border-radius: 12px;
     padding: 0.75rem 1rem;
@@ -456,15 +456,15 @@
 
   .alert-warning {
     background-color: var(--ember-bg);
-    border: 1px solid rgba(212, 160, 23, 0.2);
-    color: #8a6d1b;
+    border: 1px solid rgba(217, 119, 6, 0.2);
+    color: #92400e;
     border-radius: 12px;
     padding: 0.75rem 1rem;
   }
 
   .alert-info {
     background-color: var(--accent-bg);
-    border: 1px solid rgba(0, 98, 65, 0.2);
+    border: 1px solid rgba(79, 70, 229, 0.2);
     color: var(--accent);
     border-radius: 12px;
     padding: 0.75rem 1rem;
@@ -566,7 +566,7 @@
   }
 
   .frap-shadow {
-    box-shadow: 0 8px 24px rgba(0, 98, 65, 0.3);
+    box-shadow: 0 8px 24px rgba(79, 70, 229, 0.25);
   }
 
   .squish {

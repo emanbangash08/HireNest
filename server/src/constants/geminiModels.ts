@@ -8,10 +8,10 @@
  *   import { GEMINI_FLASH, GEMINI_PRO } from '../constants/geminiModels';
  */
 
-/** Primary fast model — used for most tasks (email classification, schedule parsing,CV analysis, etc.) */
-export const GEMINI_FLASH = 'gemini-3-flash-preview';
+/** Primary fast model — used for most tasks (email classification, schedule parsing, CV analysis, etc.) */
+export const GEMINI_FLASH = 'gemini-2.0-flash';
 
-/** Higher-quality model—used for complex generation tasks (cover letters,detailedCVwriting,etc.) */
+/** Higher-quality model — used for complex generation tasks (cover letters, detailed CV writing, etc.) */
 export const GEMINI_PRO = 'gemini-1.5-pro';
 
 /** Lightweight 1.5-generation flashmodel—kept for high-volume/cost-sensitivebatch operations */

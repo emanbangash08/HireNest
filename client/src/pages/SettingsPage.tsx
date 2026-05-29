@@ -1,4 +1,4 @@
-// client/src/pages/SettingsPage.tsx
+﻿// client/src/pages/SettingsPage.tsx
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -307,30 +307,37 @@ const SettingsPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-[#f2f0eb]">
+      <div className="flex justify-center items-center min-h-screen bg-[var(--bg-base)]">
         <Spinner size="lg" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-8 sm:py-10 px-4 md:px-12 bg-[#f2f0eb] text-slate-700 font-manrope">
+    <div className="min-h-screen py-8 sm:py-10 px-4 md:px-12 bg-[var(--bg-base)] text-slate-700 ">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <header className="mb-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="bg-white/50 p-2 rounded-lg shadow-sm">
-              <span className="material-symbols-outlined text-[#006241]" style={iconStyle}>
-                key
-              </span>
-            </div>
-            <h1 className="text-3xl font-extrabold text-[#006241] tracking-tight">
+        <header className="relative mb-10 rounded-2xl overflow-hidden border px-6 py-5" style={{ background: 'var(--bg-surface)', borderColor: 'var(--border)' }}>
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="settings-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1.5" fill="var(--accent)" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#settings-dots)" />
+            </svg>
+            <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full opacity-[0.04]" style={{ backgroundColor: 'var(--accent)' }} />
+          </div>
+          <div className="relative z-10">
+            <p className="text-[11px] uppercase tracking-[0.12em] font-semibold mb-1" style={{ color: 'var(--accent)' }}>Account</p>
+            <h1 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
               Settings & Integrations
             </h1>
+            <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+              Manage your account, integrations, and usage.
+            </p>
           </div>
-          <p className="text-slate-500 text-lg">
-            Manage your account connections and view usage statistics
-          </p>
         </header>
 
         {/* Verification Banner */}
@@ -381,15 +388,15 @@ const SettingsPage: React.FC = () => {
                   <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
                     Remaining
                   </span>
-                  <span className="text-2xl font-extrabold text-[#006241]">{creditsRemaining}</span>
+                  <span className="text-2xl font-extrabold text-[var(--accent)]">{creditsRemaining}</span>
                 </div>
                 <div className="border border-slate-100 rounded-lg p-4">
                   <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Used</span>
-                  <span className="text-2xl font-extrabold text-[#006241]">{creditsUsed}</span>
+                  <span className="text-2xl font-extrabold text-[var(--accent)]">{creditsUsed}</span>
                 </div>
                 <div className="border border-slate-100 rounded-lg p-4">
                   <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Limit</span>
-                  <span className="text-2xl font-extrabold text-[#006241]">{creditLimit}</span>
+                  <span className="text-2xl font-extrabold text-[var(--accent)]">{creditLimit}</span>
                 </div>
               </div>
 
@@ -400,9 +407,9 @@ const SettingsPage: React.FC = () => {
                     {Math.round(creditsRemainingPct)}% remaining
                   </span>
                 </div>
-                <div className="h-2 w-full bg-[#d4e9e2] rounded-full overflow-hidden">
+                <div className="h-2 w-full bg-[var(--accent-bg)] rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#00754A] transition-all duration-700"
+                    className="h-full bg-[var(--accent-hover)] transition-all duration-700"
                     style={{ width: `${creditsRemainingPct}%` }}
                   />
                 </div>
@@ -412,9 +419,9 @@ const SettingsPage: React.FC = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-slate-500">Credits used</span>
                   <div className="flex items-center gap-3 flex-1 px-8">
-                    <div className="h-1.5 w-full bg-[#d4e9e2] rounded-full overflow-hidden">
+                    <div className="h-1.5 w-full bg-[var(--accent-bg)] rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-[#00754A] transition-all duration-700"
+                        className="h-full bg-[var(--accent-hover)] transition-all duration-700"
                         style={{ width: `${creditsUsedPct}%` }}
                       />
                     </div>
@@ -437,7 +444,7 @@ const SettingsPage: React.FC = () => {
                     <button
                       onClick={handleManageSubscription}
                       disabled={isCreatingPortal}
-                      className="bg-[#00754A] hover:opacity-90 text-white font-bold h-[50px] w-full rounded-pill transition-all shadow-lg shadow-[#00754A]/20 flex items-center justify-center gap-2"
+                      className="bg-[var(--accent-hover)] hover:opacity-90 text-white font-bold h-[50px] w-full rounded-pill transition-all shadow-lg shadow-[var(--accent-hover)]/20 flex items-center justify-center gap-2"
                     >
                       {isCreatingPortal ? <Spinner size="sm" /> : 'Manage Subscription'}
                     </button>
@@ -447,7 +454,7 @@ const SettingsPage: React.FC = () => {
                     {PAYMENTS_ENABLED ? (
                       <button
                         onClick={() => handleUpgrade('pro')}
-                        className="bg-[#00754A] hover:opacity-90 text-white font-bold h-[50px] w-full rounded-pill transition-all shadow-lg shadow-[#00754A]/20"
+                        className="bg-[var(--accent-hover)] hover:opacity-90 text-white font-bold h-[50px] w-full rounded-pill transition-all shadow-lg shadow-[var(--accent-hover)]/20"
                       >
                         Upgrade to Pro
                       </button>
@@ -458,7 +465,7 @@ const SettingsPage: React.FC = () => {
                     )}
                     <Link
                       to="/subscriptions"
-                      className="text-sm font-bold text-[#00754A] hover:underline text-center block"
+                      className="text-sm font-bold text-[var(--accent-hover)] hover:underline text-center block"
                     >
                       View all plans
                     </Link>
@@ -480,7 +487,7 @@ const SettingsPage: React.FC = () => {
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-xl font-extrabold text-[#006241] leading-tight">Google Calendar</h3>
+                    <h3 className="text-xl font-extrabold text-[var(--accent)] leading-tight">Google Calendar</h3>
                     <p className="text-sm text-slate-500 mt-1">
                       Sync job reminders and interviews directly to your calendar
                     </p>
@@ -614,13 +621,13 @@ const SettingsPage: React.FC = () => {
                               <span className="text-slate-700">{item.label}</span>
                               <span className="text-slate-400 ml-1">{item.cost}</span>
                             </div>
-                            <span className="text-sm font-extrabold text-[#006241]">
+                            <span className="text-sm font-extrabold text-[var(--accent)]">
                               {item.count}
                             </span>
                           </div>
-                          <div className="h-1.5 w-full bg-[#d4e9e2] rounded-full overflow-hidden">
+                          <div className="h-1.5 w-full bg-[var(--accent-bg)] rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-[#00754A] transition-all duration-700"
+                              className="h-full bg-[var(--accent-hover)] transition-all duration-700"
                               style={{ width: `${widthPct}%` }}
                             />
                           </div>
@@ -644,14 +651,14 @@ const SettingsPage: React.FC = () => {
 
         {/* Onboarding Section for New Users */}
         {isNewUser && (
-          <div className="mt-8 mb-6 sm:mb-8 rounded-card shadow-card overflow-hidden bg-white border border-[#00754A]/10">
+          <div className="mt-8 mb-6 sm:mb-8 rounded-card shadow-card overflow-hidden bg-white border border-[var(--accent-hover)]/10">
             <button
               onClick={() => setIsOnboardingExpanded(!isOnboardingExpanded)}
               className="w-full p-4 sm:p-6 flex items-center justify-between transition-colors"
             >
               <div className="flex items-center gap-3">
                 <InfoIcon />
-                <h2 className="text-lg sm:text-xl font-extrabold text-[#006241] text-left">
+                <h2 className="text-lg sm:text-xl font-extrabold text-[var(--accent)] text-left">
                   Getting Started
                 </h2>
               </div>
@@ -661,7 +668,7 @@ const SettingsPage: React.FC = () => {
             {isOnboardingExpanded && (
               <div className="px-4 sm:px-6 pb-6 space-y-4">
                 <p className="text-sm sm:text-base text-slate-500">
-                  Welcome to VibeHired! We've made it easy to get started with automated job
+                  Welcome to HireNest! We've made it easy to get started with automated job
                   discovery and AI-powered applications.
                 </p>
                 <div className="p-4 rounded-lg bg-slate-50 border border-slate-100">
@@ -690,3 +697,4 @@ const SettingsPage: React.FC = () => {
 };
 
 export default SettingsPage;
+

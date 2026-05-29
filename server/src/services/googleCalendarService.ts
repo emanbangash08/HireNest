@@ -4,7 +4,7 @@ import Profile from '../models/Profile';
 import { encrypt, decrypt } from '../utils/encryption';
 import { env } from '../config/env';
 import { IReminder } from '../models/JobApplication';
-import { AuthorizationError, AuthenticationError } from '../utils/errors/AppError';
+import { AuthorizationError, ValidationError } from '../utils/errors/AppError';
 
 export interface CalendarEventItem {
     id: string;
@@ -25,14 +25,14 @@ async function getOAuth2Client(userId: string) {
     const googleIntegration = profile?.integrations?.google;
 
     if (!googleIntegration?.enabled || !googleIntegration?.accessToken) {
-        throw new AuthenticationError('Google Calendar is not connected for this account.');
+        throw new ValidationError('Google Calendar is not connected for this account.');
     }
 
     const accessToken = decrypt(googleIntegration.accessToken);
     const refreshToken = googleIntegration.refreshToken ? decrypt(googleIntegration.refreshToken) : null;
 
     if (!accessToken) {
-        throw new AuthenticationError('Google Calendar credentials are invalid. Please reconnect your Google account.');
+        throw new ValidationError('Google Calendar credentials are invalid. Please reconnect your Google account.');
     }
 
     const oauth2Client = new google.auth.OAuth2(
@@ -293,7 +293,10 @@ export async function listUpcomingEvents(
                     },
                 }
             );
-            throw new AuthenticationError('Google Calendar connection expired. Please reconnect your Google account.');
+            // Use ValidationError (400) not AuthenticationError (401) — a Google token
+            // expiry is a Google integration issue, not a HireNest session issue.
+            // Throwing 401 would trigger the global logout interceptor on the frontend.
+            throw new ValidationError('Google Calendar connection expired. Please reconnect your Google account in Settings.');
         }
 
         throw err;

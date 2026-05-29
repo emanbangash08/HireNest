@@ -1,4 +1,4 @@
-// client/src/pages/SubscriptionsPage.tsx
+﻿// client/src/pages/SubscriptionsPage.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -136,17 +136,17 @@ const PlanCard: React.FC<{
 
       {/* Header */}
       <div className="mb-4">
-        <h3 className="font-manrope text-xl font-semibold text-green mb-1">{plan.name}</h3>
+        <h3 className=" text-xl font-semibold text-green mb-1">{plan.name}</h3>
         <p className="text-sm text-[var(--text-secondary)]">{plan.description}</p>
       </div>
 
       {/* Price */}
       <div className="mb-6">
         {plan.price === 0 ? (
-          <span className="font-manrope text-5xl font-semibold text-green">Free</span>
+          <span className=" text-5xl font-semibold text-green">Free</span>
         ) : (
           <div className="flex items-baseline gap-1">
-            <span className="font-manrope text-5xl font-semibold text-green">${plan.price}</span>
+            <span className=" text-5xl font-semibold text-green">${plan.price}</span>
             <span className="text-[var(--text-secondary)] font-body">/mo</span>
           </div>
         )}
@@ -169,7 +169,7 @@ const PlanCard: React.FC<{
       <button
         onClick={() => onSelectPlan(plan.id)}
         disabled={isLoading || isDisabled}
-        className={`w-full h-[50px] rounded-full font-manrope text-sm font-semibold transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
+        className={`w-full h-[50px] rounded-full  text-sm font-semibold transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
           ${isCurrentPlan
             ? 'border-2 border-green-accent text-green-accent hover:bg-green-light'
             : isPopular
@@ -272,7 +272,7 @@ const SubscriptionsPage: React.FC = () => {
     <div className="space-y-8 max-w-[1440px] mx-auto">
       {/* Header Section */}
       <header>
-        <h1 className="font-manrope text-4xl md:text-[45px] font-semibold text-green mb-2 tracking-tight">
+        <h1 className=" text-4xl md:text-[45px] font-semibold text-green mb-2 tracking-tight">
           Plans & Billing
         </h1>
         <p className="text-lg text-[var(--text-secondary)] max-w-2xl leading-relaxed">
@@ -285,7 +285,7 @@ const SubscriptionsPage: React.FC = () => {
         <div className="flex items-center gap-3 p-4 bg-[var(--ember-bg)] border border-[var(--ember)] rounded-xl">
           <span className="material-symbols-outlined text-amber shrink-0">info</span>
           <p className="text-sm text-amber">
-            <span className="font-semibold">Paid plans coming soon</span> — enjoy your free credits in the meantime. Subscriptions will be available shortly.
+            <span className="font-semibold">Paid plans coming soon</span> â€” enjoy your free credits in the meantime. Subscriptions will be available shortly.
           </p>
         </div>
       )}
@@ -311,7 +311,7 @@ const SubscriptionsPage: React.FC = () => {
       <section className="bg-white rounded-xl p-6 md:p-8 whisper-shadow border border-[var(--border-subtle)]">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
           <div>
-            <h2 className="font-manrope text-xl font-semibold text-green">Current Plan: {currentPlanName}</h2>
+            <h2 className=" text-xl font-semibold text-green">Current Plan: {currentPlanName}</h2>
             {billingEnd && (
               <p className="text-sm text-[var(--text-secondary)] mt-1">
                 Your next billing date is {new Date(billingEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
@@ -320,13 +320,13 @@ const SubscriptionsPage: React.FC = () => {
           </div>
           {!isLoadingUsage && usageInfo && (
             <div className="text-left md:text-right">
-              <span className="font-manrope text-4xl font-semibold text-green-accent">{remainingCredits}</span>
+              <span className=" text-4xl font-semibold text-green-accent">{remainingCredits}</span>
               <span className="text-[var(--text-secondary)] text-sm ml-1">Credits Remaining</span>
             </div>
           )}
           {isLoadingUsage && (
             <div className="flex items-center gap-2 text-[var(--text-muted)] text-sm">
-              <Spinner size="sm" /> Loading usage…
+              <Spinner size="sm" /> Loading usageâ€¦
             </div>
           )}
         </div>
@@ -389,15 +389,15 @@ const SubscriptionsPage: React.FC = () => {
           />
           <FAQItem
             question="Do unused credits roll over?"
-            answer="No — credits reset at the start of each billing cycle. On the Free tier, the 20 credits are one-time and never expire until used."
+            answer="No â€” credits reset at the start of each billing cycle. On the Free tier, the 20 credits are one-time and never expire until used."
           />
           <FAQItem
             question="What's the real difference between plans?"
-            answer="Credits and AI rate limits. Every plan unlocks all features — the tiers simply give you more credits per month (150 / 500 / 1,500) and raise the cap on how many AI requests you can make in a short window, which matters when scanning large email batches or running multiple generations back-to-back."
+            answer="Credits and AI rate limits. Every plan unlocks all features â€” the tiers simply give you more credits per month (150 / 500 / 1,500) and raise the cap on how many AI requests you can make in a short window, which matters when scanning large email batches or running multiple generations back-to-back."
           />
           <FAQItem
             question="Can I upgrade or downgrade at any time?"
-            answer="Yes — open the Manage Billing portal to switch plans or cancel. Upgrades take effect immediately with prorated billing; downgrades apply at the end of the current billing period."
+            answer="Yes â€” open the Manage Billing portal to switch plans or cancel. Upgrades take effect immediately with prorated billing; downgrades apply at the end of the current billing period."
           />
           <FAQItem
             question="What happens when I run out of credits?"
@@ -442,3 +442,4 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
 };
 
 export default SubscriptionsPage;
+

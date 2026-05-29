@@ -30,7 +30,7 @@ const generateCoverLetterHandler: RequestHandler = async (req, res) => {
         return;
     }
 
-    const { jobId } = req.params;
+    const jobId = req.params.jobId as string;
     const requestedLanguage = req.body.language === 'de' ? 'de' : 'en';
     const humanize = req.body.humanize !== false;
     const userId = user._id.toString();

@@ -206,7 +206,7 @@ const AdminErrorsPage: React.FC = () => {
       {/* Header Section */}
       <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-1">
-          <h1 className="font-manrope text-5xl md:text-6xl font-bold text-green tracking-tight leading-none">
+          <h1 className=" text-5xl md:text-6xl font-bold text-green tracking-tight leading-none">
             Error Logs
           </h1>
           <p className="text-base text-secondary-color max-w-2xl mt-2">
@@ -229,7 +229,7 @@ const AdminErrorsPage: React.FC = () => {
           <div className="bg-surface p-6 rounded-xl whisper-shadow border border-white/50">
             <p className="text-xs font-semibold text-muted-color uppercase tracking-widest mb-1">Total Errors</p>
             <div className="flex items-end justify-between">
-              <span className="font-manrope text-3xl md:text-4xl font-bold text-primary-color">{stats.total.toLocaleString()}</span>
+              <span className=" text-3xl md:text-4xl font-bold text-primary-color">{stats.total.toLocaleString()}</span>
               <span className="text-error text-sm font-semibold pb-1 flex items-center gap-0.5">
                 <span className="material-symbols-outlined text-base">trending_up</span>
                 {Math.round((stats.unresolved / (stats.total || 1)) * 100)}%
@@ -239,28 +239,28 @@ const AdminErrorsPage: React.FC = () => {
           <div className="bg-surface p-6 rounded-xl whisper-shadow border border-white/50">
             <p className="text-xs font-semibold text-muted-color uppercase tracking-widest mb-1">Unresolved</p>
             <div className="flex items-end justify-between">
-              <span className="font-manrope text-3xl md:text-4xl font-bold text-primary-color">{stats.unresolved}</span>
+              <span className=" text-3xl md:text-4xl font-bold text-primary-color">{stats.unresolved}</span>
               <span className="material-symbols-outlined text-gold">pending</span>
             </div>
           </div>
           <div className="bg-error-bg p-6 rounded-xl whisper-shadow border border-error/10">
             <p className="text-xs font-semibold text-error uppercase tracking-widest mb-1">Critical</p>
             <div className="flex items-end justify-between">
-              <span className="font-manrope text-3xl md:text-4xl font-bold text-error">{String(stats.critical).padStart(2, '0')}</span>
+              <span className=" text-3xl md:text-4xl font-bold text-error">{String(stats.critical).padStart(2, '0')}</span>
               <div className="w-2 h-2 rounded-full bg-error animate-pulse mb-2" />
             </div>
           </div>
           <div className="bg-surface p-6 rounded-xl whisper-shadow border border-white/50">
             <p className="text-xs font-semibold text-muted-color uppercase tracking-widest mb-1">Frontend</p>
             <div className="flex items-end justify-between">
-              <span className="font-manrope text-3xl md:text-4xl font-bold text-primary-color">{stats.byType.frontend}</span>
+              <span className=" text-3xl md:text-4xl font-bold text-primary-color">{stats.byType.frontend}</span>
               <span className="material-symbols-outlined text-green">laptop_mac</span>
             </div>
           </div>
           <div className="bg-surface p-6 rounded-xl whisper-shadow border border-white/50">
             <p className="text-xs font-semibold text-muted-color uppercase tracking-widest mb-1">Backend</p>
             <div className="flex items-end justify-between">
-              <span className="font-manrope text-3xl md:text-4xl font-bold text-primary-color">{stats.byType.backend}</span>
+              <span className=" text-3xl md:text-4xl font-bold text-primary-color">{stats.byType.backend}</span>
               <span className="material-symbols-outlined text-green-house">dns</span>
             </div>
           </div>
@@ -545,3 +545,4 @@ const AdminErrorsPage: React.FC = () => {
 };
 
 export default AdminErrorsPage;
+

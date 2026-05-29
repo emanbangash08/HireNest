@@ -22,12 +22,12 @@ export async function getOrCreateUsageRecord(userId: string): Promise<IUsageReco
         billingPeriodEnd: { $gt: now }
     }).sort({ billingPeriodStart: -1 });
 
+    const plan = user.plan || 'free';
+    const planConfig = PLANS[plan as PlanType];
+    const planCreditLimit = planConfig.credits;
+
     if (!record) {
         // Create new record for the current period
-        // If user has a plan expiration/renewal date, use that as the boundary
-        const plan = user.plan || 'free';
-        const planConfig = PLANS[plan as PlanType];
-
         const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
         const end = new Date(start);
         end.setMonth(end.getMonth() + 1); // Default to 1 month period
@@ -38,11 +38,18 @@ export async function getOrCreateUsageRecord(userId: string): Promise<IUsageReco
             billingPeriodEnd: (user.planExpiresAt && user.planExpiresAt > now) ? user.planExpiresAt : end,
             credits: {
                 used: 0,
-                limit: planConfig.credits
+                limit: planCreditLimit
             },
             actions: {},
             history: []
         });
+    } else if (record.credits.limit < planCreditLimit) {
+        // Sync the limit upward if the plan's credit allowance was increased
+        record = await UsageRecord.findByIdAndUpdate(
+            record._id,
+            { $set: { 'credits.limit': planCreditLimit } },
+            { new: true }
+        ) ?? record;
     }
 
     return record;

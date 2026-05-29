@@ -198,20 +198,25 @@ const AnalyticsPage: React.FC = () => {
     return (
         <div className="max-w-6xl mx-auto px-6 py-8 md:px-12 md:py-12 space-y-8 animate-in fade-in duration-500">
             {/* Header */}
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div>
-                    <h1
-                        className="text-3xl font-extrabold"
-                        style={{ color: 'var(--accent)', fontFamily: "'Manrope', sans-serif" }}
-                    >
-                        Analytics Dashboard
+            <header className="relative rounded-2xl overflow-hidden border px-6 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4" style={{ background: 'var(--bg-surface)', borderColor: 'var(--border)' }}>
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
+                        <defs><pattern id="analytics-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="var(--accent)" /></pattern></defs>
+                        <rect width="100%" height="100%" fill="url(#analytics-dots)" />
+                    </svg>
+                    <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-[0.04]" style={{ backgroundColor: 'var(--accent)' }} />
+                </div>
+                <div className="relative z-10">
+                    <p className="text-[11px] uppercase tracking-[0.12em] font-semibold mb-1" style={{ color: 'var(--accent)' }}>Insights</p>
+                    <h1 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
+                        Your analytics
                     </h1>
                     <p className="mt-1 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                        Track your application progress and work performance.
+                        Track application progress and uncover patterns in your job search.
                     </p>
                 </div>
 
-                <div className="flex items-center gap-3 flex-wrap">
+                <div className="relative z-10 flex items-center gap-3 flex-wrap">
                     {/* Period Selector */}
                     <div
                         className="flex items-center gap-2 px-4 py-2 rounded-pill text-sm font-semibold"

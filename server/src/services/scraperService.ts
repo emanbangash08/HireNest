@@ -3,6 +3,8 @@ import { IScraper, IJobListScraper } from '../interfaces/scraper.interface';
 import { AIScraper } from './scrapers/AIScraper';
 import { ApifyJobDetailsScraper } from './scrapers/ApifyJobDetailsScraper';
 import { ApifyJobListScraper } from './scrapers/ApifyJobListScraper';
+import { AdzunaJobListScraper } from './scrapers/AdzunaJobListScraper';
+import { JSearchJobListScraper } from './scrapers/JSearchJobListScraper';
 
 /**
  * Scraper service that manages scraper instances and provides factory methods
@@ -43,18 +45,35 @@ export class ScraperService {
      */
     static getJobListScraper(): IJobListScraper {
         if (!this.jobListScraper) {
-            const scraperType = process.env.JOB_LIST_SCRAPER_TYPE || 'apify';
-            
+            // Auto-detect: prefer explicit env var, otherwise pick based on available keys
+            const explicit = process.env.JOB_LIST_SCRAPER_TYPE;
+            const scraperType = explicit
+                ? explicit
+                : process.env.JSEARCH_API_KEY
+                    ? 'jsearch'
+                    : process.env.ADZUNA_APP_ID && process.env.ADZUNA_APP_KEY
+                        ? 'adzuna'
+                        : 'apify';
+
             switch (scraperType.toLowerCase()) {
+                case 'jsearch':
+                    this.jobListScraper = new JSearchJobListScraper();
+                    console.log('[ScraperService] Using JSearch job list scraper (RapidAPI — global coverage)');
+                    break;
+                case 'adzuna':
+                    this.jobListScraper = new AdzunaJobListScraper();
+                    console.log('[ScraperService] Using Adzuna job list scraper (free tier)');
+                    break;
                 case 'apify':
                     this.jobListScraper = new ApifyJobListScraper();
+                    console.log('[ScraperService] Using Apify job list scraper');
                     break;
                 default:
-                    console.warn(`Unknown job list scraper type: ${scraperType}, defaulting to Apify`);
-                    this.jobListScraper = new ApifyJobListScraper();
+                    console.warn(`[ScraperService] Unknown job list scraper type: ${scraperType}, defaulting to JSearch`);
+                    this.jobListScraper = new JSearchJobListScraper();
             }
         }
-        
+
         return this.jobListScraper;
     }
 

@@ -40,6 +40,10 @@ let _cachedFastModel: string | null = null;
 let _cachedQualityModel: string | null = null;
 
 async function getResolvedGeminiModel(apiKey: string, preference: 'fast' | 'quality' = 'fast'): Promise<string> {
+  // Explicit env override skips dynamic resolution entirely
+  const envOverride = process.env.GEMINI_MODEL;
+  if (envOverride) return envOverride;
+
   if (preference === 'quality') {
     if (!_cachedQualityModel) {
       _cachedQualityModel = await resolveBestGeminiModel(apiKey, 'quality');

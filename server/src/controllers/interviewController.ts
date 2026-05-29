@@ -36,7 +36,7 @@ export const generateInterviewQuestions = async (req: ValidatedRequest, res: Res
     const userId = req.user?.id;
     if (!userId) throw new AuthorizationError('User not authenticated');
 
-    const { jobId } = req.params;
+    const jobId = req.params.jobId as string;
     const { level, questionCount } = req.body as { level?: 'first' | 'second'; questionCount?: number };
     const questions = await generateQuestions(userId, jobId, level, questionCount);
 
@@ -51,7 +51,7 @@ export const evaluateInterviewAnswer = async (req: ValidatedRequest, res: Respon
     const userId = req.user?.id;
     if (!userId) throw new AuthorizationError('User not authenticated');
 
-    const { jobId } = req.params;
+    const jobId = req.params.jobId as string;
     const { question, answer } = req.body as { question: string; answer: string };
 
     if (!question || typeof question !== 'string' || !question.trim()) {
@@ -73,7 +73,7 @@ export const answerInterviewQuestion = async (req: ValidatedRequest, res: Respon
     const userId = req.user?.id;
     if (!userId) throw new AuthorizationError('User not authenticated');
 
-    const { jobId } = req.params;
+    const jobId = req.params.jobId as string;
     const { question, referenceMaterialIds, activeCvId } = req.body as { question: string; referenceMaterialIds?: string[]; activeCvId?: string };
 
     if (!question || typeof question !== 'string' || !question.trim()) {
@@ -98,7 +98,7 @@ export const initializeSession = async (req: ValidatedRequest, res: Response) =>
     const userId = req.user?.id;
     if (!userId) throw new AuthorizationError('User not authenticated');
 
-    const { jobId } = req.params;
+    const jobId = req.params.jobId as string;
     const { referenceMaterialIds, activeCvId } = req.body as { referenceMaterialIds?: string[]; activeCvId?: string };
     const sessionId = await initializeInterviewSession(
         userId,
@@ -117,7 +117,7 @@ export const streamAnswer = async (req: ValidatedRequest, res: Response) => {
     const userId = req.user?.id;
     if (!userId) throw new AuthorizationError('User not authenticated');
 
-    const { jobId } = req.params;
+    const jobId = req.params.jobId as string;
     const { question, referenceMaterialIds, activeCvId } = req.body as { question: string; referenceMaterialIds?: string[]; activeCvId?: string };
 
     if (!question || typeof question !== 'string' || !question.trim()) {

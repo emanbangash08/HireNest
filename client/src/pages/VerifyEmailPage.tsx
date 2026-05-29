@@ -1,4 +1,4 @@
-// client/src/pages/VerifyEmailPage.tsx
+﻿// client/src/pages/VerifyEmailPage.tsx
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { verifyEmailToken, resendVerificationEmail } from '../services/authApi';
@@ -79,7 +79,7 @@ const VerifyEmailPage: React.FC = () => {
                             </div>
                             <h1
                                 className="text-2xl font-semibold mb-2"
-                                style={{ fontFamily: 'Lora, Georgia, serif', color: 'var(--text-primary)' }}
+                                style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
                             >
                                 Email Verified
                             </h1>
@@ -112,7 +112,7 @@ const VerifyEmailPage: React.FC = () => {
                             </div>
                             <h1
                                 className="text-2xl font-semibold mb-2"
-                                style={{ fontFamily: 'Lora, Georgia, serif', color: 'var(--text-primary)' }}
+                                style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
                             >
                                 Verification Failed
                             </h1>
@@ -175,4 +175,5 @@ const VerifyEmailPage: React.FC = () => {
 };
 
 export default VerifyEmailPage;
+
 

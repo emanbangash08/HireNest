@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
 import { cn } from "../lib/utils";
 
-interface VibeHiredLogoProps {
+interface HireNestLogoProps {
   className?: string;
   size?: number;
 }
 
-export function VibeHiredLogo({ className, size = 64 }: VibeHiredLogoProps) {
-  const word1 = Array.from("Vibe");
-  const word2 = Array.from("Hired");
+export function VibeHiredLogo({ className, size = 64 }: HireNestLogoProps) {
+  const word1 = Array.from("Hire");
+  const word2 = Array.from("Nest");
 
   const letterVariants = {
     hidden: { y: 20, opacity: 0, rotate: -5 },
@@ -20,84 +20,87 @@ export function VibeHiredLogo({ className, size = 64 }: VibeHiredLogoProps) {
         type: "spring" as const,
         damping: 12,
         stiffness: 200,
-        delay: i * 0.08,
+        delay: i * 0.07,
       },
     }),
     hover: {
-      y: -6,
-      scale: 1.05,
-      color: "var(--accent)",
+      y: -5,
+      scale: 1.08,
       transition: { type: "spring" as const, stiffness: 300, damping: 10 },
     },
   };
 
   return (
     <div
-      className={cn(
-        "flex items-center justify-start cursor-default",
-        className
-      )}
+      className={cn("flex items-center justify-start cursor-default", className)}
       style={{ minHeight: size }}
     >
       <motion.div
-        className="flex items-baseline font-bold tracking-tight"
-        style={{
-          fontSize: size * 0.8,
-          fontFamily: "Inter, sans-serif",
-        }}
+        className="flex items-center gap-2"
         initial="hidden"
         animate="visible"
       >
-        {/* "Vibe" */}
-        <div className="flex mr-[0.05em]">
-          {word1.map((letter, i) => (
-            <motion.span
-              key={i}
-              custom={i}
-              variants={letterVariants}
-              whileHover="hover"
-              style={{ color: "var(--text-secondary)" }}
-              className="inline-block origin-bottom transition-colors duration-300"
-            >
-              {letter}
-            </motion.span>
-          ))}
-        </div>
-
-        {/* "Hired" */}
-        <div className="flex relative">
-          {word2.map((letter, i) => (
-            <motion.span
-              key={i + word1.length}
-              custom={i + word1.length}
-              variants={letterVariants}
-              whileHover="hover"
-              className="inline-block origin-bottom transition-colors duration-300 relative z-10"
-              style={{ color: "var(--text-primary)" }}
-            >
-              {letter}
-            </motion.span>
-          ))}
-
-          {/* Gold spark ✦ */}
-          <motion.div
-            className="absolute -right-[0.5em] -top-[0.2em]"
-            initial={{ scale: 0, rotate: -45 }}
-            animate={{ scale: [0, 1.1, 1], rotate: [0, 15, 0] }}
-            transition={{
-              delay: (word1.length + word2.length) * 0.08 + 0.2,
-              type: "spring",
-              stiffness: 200,
-            }}
-            style={{
-              fontSize: size * 0.4,
-              color: "var(--amber)",
-            }}
+        {/* Icon */}
+        <motion.div
+          initial={{ scale: 0, rotate: -20 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 200, damping: 12, delay: 0.1 }}
+          className="rounded-xl flex items-center justify-center flex-shrink-0"
+          style={{
+            width: size * 0.7,
+            height: size * 0.7,
+            background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+          }}
+        >
+          <span
+            className="material-symbols-outlined text-white"
+            style={{ fontSize: size * 0.4 }}
           >
-            ✦
-          </motion.div>
+            nest_eco_leaf
+          </span>
+        </motion.div>
+
+        {/* Text */}
+        <div
+          className="flex items-baseline font-bold tracking-tight"
+          style={{ fontSize: size * 0.7, fontFamily: "'Plus Jakarta Sans', Inter, sans-serif" }}
+        >
+          {/* "Hire" */}
+          <div className="flex">
+            {word1.map((letter, i) => (
+              <motion.span
+                key={i}
+                custom={i}
+                variants={letterVariants}
+                whileHover="hover"
+                className="inline-block origin-bottom"
+                style={{ color: "#0F172A" }}
+              >
+                {letter}
+              </motion.span>
+            ))}
+          </div>
+
+          {/* "Nest" */}
+          <div className="flex">
+            {word2.map((letter, i) => (
+              <motion.span
+                key={i + word1.length}
+                custom={i + word1.length}
+                variants={letterVariants}
+                whileHover="hover"
+                className="inline-block origin-bottom"
+                style={{ color: "#4F46E5" }}
+              >
+                {letter}
+              </motion.span>
+            ))}
+          </div>
         </div>
       </motion.div>
     </div>
   );
 }
+
+// Named export alias
+export { VibeHiredLogo as HireNestLogo };

@@ -1,4 +1,4 @@
-// client/src/pages/LoginPage.tsx
+﻿// client/src/pages/LoginPage.tsx
 import React, { useState, FormEvent, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
@@ -75,6 +75,10 @@ const LoginPage: React.FC = () => {
 
   const handleResendVerification = async () => {
     if (resendCooldown > 0) return;
+    if (!email) {
+      setEmailError('Please enter your email address first.');
+      return;
+    }
     setResendingVerification(true);
     try {
       await resendVerificationEmail(email);
@@ -221,7 +225,7 @@ const LoginPage: React.FC = () => {
           <div>
             <h1
               className="text-4xl xl:text-5xl font-semibold leading-[1.1] tracking-tight"
-              style={{ fontFamily: 'Lora, Georgia, serif', color: 'var(--text-primary)' }}
+              style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
             >
               Tailored applications,<br />
               <span style={{ color: 'var(--accent)' }}>all in one place.</span>
@@ -240,7 +244,7 @@ const LoginPage: React.FC = () => {
               <li key={i} className="flex items-center gap-3">
                 <span
                   className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: 'var(--accent-bg)', border: '1px solid rgba(0,98,65,0.2)' }}
+                  style={{ backgroundColor: 'var(--accent-bg)', border: '1px solid rgba(79,70,229,0.2)' }}
                 >
                   {f.icon}
                 </span>
@@ -269,7 +273,7 @@ const LoginPage: React.FC = () => {
         <div className="mb-8">
           <h2
             className="text-[1.875rem] font-semibold tracking-tight"
-            style={{ fontFamily: 'Lora, Georgia, serif', color: 'var(--text-primary)' }}
+            style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
           >
             Welcome back
           </h2>
@@ -408,7 +412,7 @@ const LoginPage: React.FC = () => {
             style={{
               backgroundColor: 'var(--accent)',
               color: 'var(--text-on-accent)',
-              boxShadow: '0 1px 0 rgba(255,255,255,0.15) inset, 0 2px 8px rgba(0,98,65,0.2)',
+              boxShadow: '0 1px 0 rgba(255,255,255,0.15) inset, 0 2px 8px rgba(79,70,229,0.2)',
               opacity: isLoading ? 0.7 : 1,
               cursor: isLoading ? 'not-allowed' : 'pointer',
             }}
@@ -511,4 +515,5 @@ const LoginPage: React.FC = () => {
 };
 
 export default LoginPage;
+
 

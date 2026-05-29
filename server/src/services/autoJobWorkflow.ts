@@ -165,8 +165,6 @@ async function executeWorkflow(runId: string, userId: string, isManual: boolean)
 
         // AI provider will be retrieved by aiService when needed
 
-        const apifyToken = process.env.APIFY_API_KEY;
-
         // Get auto-job settings
         const autoJobSettings = (profile as any).autoJobSettings;
 
@@ -178,8 +176,16 @@ async function executeWorkflow(runId: string, userId: string, isManual: boolean)
             throw new Error('Keywords or location must be configured');
         }
 
-        if (!apifyToken) {
-            throw new Error('Apify API token is not configured on the server');
+        // Determine which scraper is active and validate credentials
+        const usingAdzuna = (process.env.ADZUNA_APP_ID && process.env.ADZUNA_APP_KEY) &&
+            process.env.JOB_LIST_SCRAPER_TYPE !== 'apify';
+        const apifyToken = process.env.APIFY_API_KEY;
+
+        if (!usingAdzuna && !apifyToken) {
+            throw new Error(
+                'No job scraper is configured. Add ADZUNA_APP_ID + ADZUNA_APP_KEY (free at developer.adzuna.com) ' +
+                'or APIFY_API_KEY to your .env file.'
+            );
         }
 
         const maxJobs = autoJobSettings.maxJobs || 100;
@@ -218,7 +224,7 @@ async function executeWorkflow(runId: string, userId: string, isManual: boolean)
             avoidDuplicates: autoJobSettings.avoidDuplicates || false
         };
 
-        const rawJobs = await retrieveJobs(apifyToken, jobSearchOptions);
+        const rawJobs = await retrieveJobs(apifyToken || '', jobSearchOptions);
         stats.jobsFound = rawJobs.length;
         console.log(`✓ Found ${stats.jobsFound} jobs`);
         await updateProgress('Retrieve Jobs', 'completed', 1, `Found ${stats.jobsFound} jobs`);

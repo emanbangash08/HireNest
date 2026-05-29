@@ -90,7 +90,7 @@ export const update = async (req: ValidatedRequest, res: Response) => {
     const userId = req.user?.id;
     if (!userId) throw new AuthorizationError('User not authenticated');
 
-    const { id } = req.params;
+    const id = req.params.id as string;
     const dto = req.body as UpdateMaterialDto;
 
     const material = await updateMaterial(userId, id, dto);
@@ -105,7 +105,7 @@ export const remove = async (req: ValidatedRequest, res: Response) => {
     const userId = req.user?.id;
     if (!userId) throw new AuthorizationError('User not authenticated');
 
-    const { id } = req.params;
+    const id = req.params.id as string;
     await deleteMaterial(userId, id);
     res.status(204).send();
 };
@@ -161,7 +161,7 @@ export const shareMaterial = async (req: ValidatedRequest, res: Response) => {
     const userId = req.user?.id;
     if (!userId) throw new AuthorizationError('User not authenticated');
 
-    const { id } = req.params;
+    const id = req.params.id as string;
 
     const material = await shareMaterialService(userId, id);
     const shareUrl = `/shared/${material.shareToken}`;
@@ -180,7 +180,7 @@ export const unshareMaterial = async (req: ValidatedRequest, res: Response) => {
     const userId = req.user?.id;
     if (!userId) throw new AuthorizationError('User not authenticated');
 
-    const { id } = req.params;
+    const id = req.params.id as string;
 
     const material = await unshareMaterialService(userId, id);
     res.json({ 

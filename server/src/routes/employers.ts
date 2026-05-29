@@ -114,7 +114,7 @@ router.get('/', asyncHandler(async (req: Request, res: Response) => {
   // Attach total hours for each employer
   const employerIds = employers.map((e) => e._id);
   const hoursByEmployer = await WorkEntry.aggregate([
-    { $match: { userId: req.user!._id, employerId: { $in: employerIds } } },
+    { $match: { userId, employerId: { $in: employerIds } } },
     { $group: { _id: '$employerId', totalHours: { $sum: '$hours' }, entryCount: { $sum: 1 } } },
   ]);
 
@@ -186,7 +186,8 @@ router.post('/', upload.single('logo'), asyncHandler(async (req: Request, res: R
  */
 router.put('/:id', upload.single('logo'), asyncHandler(async (req: Request, res: Response) => {
   const userId = String(req.user!._id);
-  const employer = await Employer.findOne({ _id: req.params.id, userId });
+  const id = req.params.id as string;
+  const employer = await Employer.findOne({ _id: id, userId });
   if (!employer) throw new NotFoundError('Employer not found.');
 
   if (req.body.name !== undefined) {
@@ -229,7 +230,8 @@ router.put('/:id', upload.single('logo'), asyncHandler(async (req: Request, res:
  */
 router.delete('/:id', asyncHandler(async (req: Request, res: Response) => {
   const userId = String(req.user!._id);
-  const employer = await Employer.findOne({ _id: req.params.id, userId });
+  const id = req.params.id as string;
+  const employer = await Employer.findOne({ _id: id, userId });
   if (!employer) throw new NotFoundError('Employer not found.');
 
   // Delete Cloudinary logo
@@ -256,7 +258,8 @@ router.delete('/:id', asyncHandler(async (req: Request, res: Response) => {
  */
 router.post('/:id/sub-locations', asyncHandler(async (req: Request, res: Response) => {
   const userId = String(req.user!._id);
-  const employer = await Employer.findOne({ _id: req.params.id, userId });
+  const id = req.params.id as string;
+  const employer = await Employer.findOne({ _id: id, userId });
   if (!employer) throw new NotFoundError('Employer not found.');
 
   const name = String(req.body.name ?? '').trim();
@@ -274,10 +277,12 @@ router.post('/:id/sub-locations', asyncHandler(async (req: Request, res: Respons
  */
 router.put('/:id/sub-locations/:subId', asyncHandler(async (req: Request, res: Response) => {
   const userId = String(req.user!._id);
-  const employer = await Employer.findOne({ _id: req.params.id, userId });
+  const id = req.params.id as string;
+  const subId = req.params.subId as string;
+  const employer = await Employer.findOne({ _id: id, userId });
   if (!employer) throw new NotFoundError('Employer not found.');
 
-  const sub = employer.subLocations.find((s) => String(s._id) === req.params.subId);
+  const sub = employer.subLocations.find((s) => String(s._id) === subId);
   if (!sub) throw new NotFoundError('Sub-location not found.');
 
   const name = String(req.body.name ?? '').trim();
@@ -295,10 +300,12 @@ router.put('/:id/sub-locations/:subId', asyncHandler(async (req: Request, res: R
  */
 router.delete('/:id/sub-locations/:subId', asyncHandler(async (req: Request, res: Response) => {
   const userId = String(req.user!._id);
-  const employer = await Employer.findOne({ _id: req.params.id, userId });
+  const id = req.params.id as string;
+  const subId = req.params.subId as string;
+  const employer = await Employer.findOne({ _id: id, userId });
   if (!employer) throw new NotFoundError('Employer not found.');
 
-  const idx = employer.subLocations.findIndex((s) => String(s._id) === req.params.subId);
+  const idx = employer.subLocations.findIndex((s) => String(s._id) === subId);
   if (idx === -1) throw new NotFoundError('Sub-location not found.');
 
   employer.subLocations.splice(idx, 1);

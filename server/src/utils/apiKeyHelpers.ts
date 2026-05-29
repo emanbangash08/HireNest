@@ -2,19 +2,17 @@
 import { NotFoundError } from './errors/AppError';
 
 /**
- * Get Apify API token from server environment
- * @param _userId - Unused: User ID (kept for backward compatibility with existing calls)
- * @returns Apify API token
- * @throws NotFoundError if token is not found in environment
+ * Get RapidAPI key (JSEARCH_API_KEY) used for LinkedIn profile scraping and JSearch.
+ * @param _userId - Unused, kept for backward-compatibility
  */
 export const getApifyToken = async (_userId?: string): Promise<string> => {
-  const apifyToken = process.env.APIFY_API_KEY;
+  const rapidApiKey = process.env.JSEARCH_API_KEY;
 
-  if (!apifyToken) {
+  if (!rapidApiKey) {
     throw new NotFoundError(
-      'Apify API key is not configured on the server. Please contact the administrator.'
+      'RapidAPI key (JSEARCH_API_KEY) is not configured on the server. Please contact the administrator.'
     );
   }
 
-  return apifyToken;
+  return rapidApiKey;
 };

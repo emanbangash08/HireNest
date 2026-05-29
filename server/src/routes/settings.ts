@@ -46,7 +46,7 @@ router.get('/api-keys', asyncHandler(async (req: Request, res: Response) => {
   if (!req.user || !req.user._id) {
     throw new ValidationError('User not authenticated');
   }
-  const userId = req.user._id.toString();
+  const userId = String(req.user!._id);
 
   // Find or create profile if it doesn't exist
   let profile = await Profile.findOne({ userId });
@@ -79,7 +79,7 @@ router.put('/api-keys', asyncHandler(async (req: Request, res: Response) => {
   if (!req.user || !req.user._id) {
     throw new ValidationError('User not authenticated');
   }
-  const userId = req.user._id.toString();
+  const userId = String(req.user!._id);
 
   // No specific keys to update currently
   res.json({
@@ -109,7 +109,7 @@ router.get('/custom-prompts', asyncHandler(async (req: Request, res: Response) =
   if (!req.user || !req.user._id) {
     throw new ValidationError('User not authenticated');
   }
-  const userId = req.user._id.toString();
+  const userId = String(req.user!._id);
 
   const profile = await Profile.findOne({ userId });
 
@@ -127,7 +127,7 @@ router.put('/custom-prompts', asyncHandler(async (req: Request, res: Response) =
   if (!req.user || !req.user._id) {
     throw new ValidationError('User not authenticated');
   }
-  const userId = req.user._id.toString();
+  const userId = String(req.user!._id);
 
   const { cvPrompt, coverLetterPrompt } = req.body;
 
@@ -172,7 +172,7 @@ router.get('/custom-prompts/templates', asyncHandler(async (req: Request, res: R
   if (!req.user || !req.user._id) {
     throw new ValidationError('User not authenticated');
   }
-  const userId = req.user._id.toString();
+  const userId = String(req.user!._id);
   const profile = await Profile.findOne({ userId });
 
   res.json({
@@ -188,7 +188,7 @@ router.put('/custom-prompts/templates', asyncHandler(async (req: Request, res: R
   if (!req.user || !req.user._id) {
     throw new ValidationError('User not authenticated');
   }
-  const userId = req.user._id.toString();
+  const userId = String(req.user!._id);
   const { templates } = req.body;
 
   if (!Array.isArray(templates)) {
@@ -221,7 +221,7 @@ router.get('/prompt-checklists', asyncHandler(async (req: Request, res: Response
   if (!req.user || !req.user._id) {
     throw new ValidationError('User not authenticated');
   }
-  const userId = req.user._id.toString();
+  const userId = String(req.user!._id);
   const profile = await Profile.findOne({ userId });
 
   res.json({
@@ -237,7 +237,7 @@ router.put('/prompt-checklists', asyncHandler(async (req: Request, res: Response
   if (!req.user || !req.user._id) {
     throw new ValidationError('User not authenticated');
   }
-  const userId = req.user._id.toString();
+  const userId = String(req.user!._id);
   const { cv, coverLetter } = req.body;
 
   const update: Record<string, any> = {};

@@ -3,7 +3,7 @@
 export const PLANS = {
     free: {
         name: 'Free Trial',
-        credits: 20,
+        credits: 200,
         isRecurring: false
     },
     starter: {

@@ -143,8 +143,9 @@ router.post('/register', authRateLimiter, validateRequest({ body: registerBodySc
         let emailSendFailed = false;
         try {
             await sendVerificationEmail(email, verificationUrl);
-        } catch (emailErr) {
-            console.error('Failed to send verification email during register:', emailErr);
+            console.log(`[register] Verification email sent to ${email}`);
+        } catch (emailErr: any) {
+            console.error('[register] Failed to send verification email:', emailErr.message);
             emailSendFailed = true;
         }
 
@@ -396,9 +397,11 @@ router.post('/verify-email', async (req: Request, res: Response) => {
 // Public endpoint — accepts email in body, rate-limited by IP.
 // Uses a uniform response to prevent email enumeration.
 router.post('/resend-verification', emailVerificationLimiter, async (req: Request, res: Response) => {
+    console.log('[resend-verification] body:', JSON.stringify(req.body));
     const { email } = req.body;
 
     if (!email || typeof email !== 'string') {
+        console.log('[resend-verification] Missing or invalid email in request body');
         res.status(400).json({ message: 'Email address is required.' });
         return;
     }
@@ -408,8 +411,14 @@ router.post('/resend-verification', emailVerificationLimiter, async (req: Reques
     try {
         const user = await User.findOne({ email: email.toLowerCase().trim() });
 
-        // Always return neutral response to prevent enumeration
-        if (!user || user.emailVerified) {
+        if (!user) {
+            console.log(`[resend-verification] No user found for email: ${email}`);
+            res.status(200).json(neutralResponse);
+            return;
+        }
+
+        if (user.emailVerified) {
+            console.log(`[resend-verification] User ${email} is already verified`);
             res.status(200).json(neutralResponse);
             return;
         }
@@ -424,11 +433,13 @@ router.post('/resend-verification', emailVerificationLimiter, async (req: Reques
         const frontendUrl = getPrimaryFrontendUrl();
         const verificationUrl = `${frontendUrl}/verify-email?token=${verificationToken}`;
 
+        console.log(`[resend-verification] Sending verification email to ${email} via ${process.env.SMTP_USER}`);
         await sendVerificationEmail(user.email, verificationUrl);
+        console.log(`[resend-verification] Email sent successfully to ${email}`);
 
         res.status(200).json(neutralResponse);
     } catch (error) {
-        console.error('Resend verification error:', error);
+        console.error('[resend-verification] Error:', error);
         res.status(500).json({ message: 'Server error.' });
     }
 });

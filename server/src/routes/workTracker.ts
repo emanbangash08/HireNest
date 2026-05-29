@@ -89,7 +89,7 @@ async function getOAuth2Client(userId: string) {
  * Query params: ?month=YYYY-MM, ?status=planned|done, ?employerId=<id>
  */
 router.get('/', asyncHandler(async (req: Request, res: Response) => {
-  const userId = req.user!._id;
+  const userId = String(req.user!._id);
 
   // ── Auto-flip stale 'planned' entries to 'done' ────────────────────────────
   // Find every planned entry for this user and promote any whose end datetime
@@ -144,7 +144,7 @@ router.get('/', asyncHandler(async (req: Request, res: Response) => {
  * Summary stats for the current user.
  */
 router.get('/stats', asyncHandler(async (req: Request, res: Response) => {
-  const userId = req.user!._id;
+  const userId = String(req.user!._id);
 
   const now = new Date();
   const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
@@ -185,7 +185,7 @@ router.get('/stats', asyncHandler(async (req: Request, res: Response) => {
  * Query params: ?month=YYYY-MM
  */
 router.get('/analytics', asyncHandler(async (req: Request, res: Response) => {
-  const userId = req.user!._id;
+  const userId = String(req.user!._id);
   const monthStr = req.query.month as string; // 'YYYY-MM' or special values like 'current-month', 'last-month'
 
   let start: Date;
@@ -302,10 +302,10 @@ router.get('/analytics', asyncHandler(async (req: Request, res: Response) => {
  * Get all unique months (YYYY-MM) that have work entries for the user.
  */
 router.get('/months', asyncHandler(async (req: Request, res: Response) => {
-  const userId = req.user!._id;
+  const userId = String(req.user!._id);
 
   const months = await WorkEntry.aggregate([
-    { $match: { userId: new mongoose.Types.ObjectId(userId as string) } },
+    { $match: { userId: new mongoose.Types.ObjectId(userId) } },
     {
       $group: {
         _id: {
@@ -342,7 +342,7 @@ router.get('/months', asyncHandler(async (req: Request, res: Response) => {
  * GET /api/work-tracker/appointment-types
  */
 router.get('/appointment-types', asyncHandler(async (req: Request, res: Response) => {
-  const userId = req.user!._id;
+  const userId = String(req.user!._id);
   const types = await AppointmentType.find({ userId }).sort({ name: 1 });
   res.json(types);
 }));
@@ -351,7 +351,7 @@ router.get('/appointment-types', asyncHandler(async (req: Request, res: Response
  * POST /api/work-tracker/appointment-types
  */
 router.post('/appointment-types', asyncHandler(async (req: Request, res: Response) => {
-  const userId = req.user!._id;
+  const userId = String(req.user!._id);
   const { name } = req.body;
   if (!name) throw new ValidationError('Name is required.');
   const type = await AppointmentType.create({ userId, name: name.trim() });
@@ -362,8 +362,9 @@ router.post('/appointment-types', asyncHandler(async (req: Request, res: Respons
  * PUT /api/work-tracker/appointment-types/:id
  */
 router.put('/appointment-types/:id', asyncHandler(async (req: Request, res: Response) => {
-  const userId = req.user!._id;
-  const type = await AppointmentType.findOne({ _id: req.params.id, userId });
+  const userId = String(req.user!._id);
+  const id = req.params.id as string;
+  const type = await AppointmentType.findOne({ _id: id, userId });
   if (!type) throw new NotFoundError('Appointment type not found.');
   if (req.body.name) type.name = req.body.name.trim();
   await type.save();
@@ -374,8 +375,9 @@ router.put('/appointment-types/:id', asyncHandler(async (req: Request, res: Resp
  * DELETE /api/work-tracker/appointment-types/:id
  */
 router.delete('/appointment-types/:id', asyncHandler(async (req: Request, res: Response) => {
-  const userId = req.user!._id;
-  await AppointmentType.findOneAndDelete({ _id: req.params.id, userId });
+  const userId = String(req.user!._id);
+  const id = req.params.id as string;
+  await AppointmentType.findOneAndDelete({ _id: id, userId });
   res.json({ message: 'Deleted' });
 }));
 
@@ -457,7 +459,7 @@ router.post('/', asyncHandler(async (req: Request, res: Response) => {
           `Hours: ${computeHours(startTime, endTime, breakMinutes)}h (${startTime} – ${endTime})`,
           notes ? `Notes: ${notes}` : '',
           '',
-          'Added via VibeHired Time Tracker',
+          'Added via HireNest Time Tracker',
         ].filter(Boolean).join('\n'),
         start: { dateTime: startDateTime.toISOString(), timeZone: 'UTC' },
         end: { dateTime: endDateTime.toISOString(), timeZone: 'UTC' },
@@ -493,7 +495,8 @@ router.post('/', asyncHandler(async (req: Request, res: Response) => {
  */
 router.put('/:id', asyncHandler(async (req: Request, res: Response) => {
   const userId = String(req.user!._id);
-  const entry = await WorkEntry.findOne({ _id: req.params.id, userId });
+  const id = req.params.id as string;
+  const entry = await WorkEntry.findOne({ _id: id, userId });
   if (!entry) throw new NotFoundError('Work entry not found.');
 
   const { employerId, appointmentTypeId, title, type, date, startTime, endTime, breakMinutes, paidKilometers, notes, status, subLocationId } = req.body;
@@ -579,7 +582,8 @@ router.put('/:id', asyncHandler(async (req: Request, res: Response) => {
  */
 router.delete('/:id', asyncHandler(async (req: Request, res: Response) => {
   const userId = String(req.user!._id);
-  const entry = await WorkEntry.findOne({ _id: req.params.id, userId });
+  const id = req.params.id as string;
+  const entry = await WorkEntry.findOne({ _id: id, userId });
   if (!entry) throw new NotFoundError('Work entry not found.');
 
   // Remove Google Calendar event if was created
@@ -601,7 +605,8 @@ router.delete('/:id', asyncHandler(async (req: Request, res: Response) => {
  */
 router.post('/:id/remind', asyncHandler(async (req: Request, res: Response) => {
   const userId = String(req.user!._id);
-  const entry = await WorkEntry.findOne({ _id: req.params.id, userId }).populate([
+  const id = req.params.id as string;
+  const entry = await WorkEntry.findOne({ _id: id, userId }).populate([
     { path: 'employerId', select: 'name logoUrl' },
     { path: 'appointmentTypeId', select: 'name' }
   ]);
@@ -630,7 +635,7 @@ router.post('/:id/remind', asyncHandler(async (req: Request, res: Response) => {
       `Hours: ${entry.hours}h (${entry.startTime} – ${entry.endTime})`,
       entry.notes ? `Notes: ${entry.notes}` : '',
       '',
-      'Added via VibeHired Time Tracker',
+      'Added via HireNest Time Tracker',
     ]
       .filter(Boolean)
       .join('\n'),
@@ -659,7 +664,8 @@ router.post('/:id/remind', asyncHandler(async (req: Request, res: Response) => {
  */
 router.delete('/:id/remind', asyncHandler(async (req: Request, res: Response) => {
   const userId = String(req.user!._id);
-  const entry = await WorkEntry.findOne({ _id: req.params.id, userId });
+  const id = req.params.id as string;
+  const entry = await WorkEntry.findOne({ _id: id, userId });
   if (!entry) throw new NotFoundError('Work entry not found.');
 
   if (entry.googleCalendarEventId) {

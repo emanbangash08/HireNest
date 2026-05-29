@@ -94,7 +94,7 @@ export const getPublishedProfiles = asyncHandler(
  */
 export const getAggregatedProfile = asyncHandler(
   async (req: Request, res: Response) => {
-    const { username } = req.params;
+    const username = req.params.username as string;
 
     // Find user by username only (no longer support email lookup)
     const user = await User.findOne({ username: username });
@@ -267,7 +267,7 @@ export const getAggregatedProfile = asyncHandler(
  */
 export const getProfileByUsername = asyncHandler(
   async (req: Request, res: Response) => {
-    const { username } = req.params;
+    const username = req.params.username as string;
 
     // Find user by username only
     const user = await User.findOne({ username: username });

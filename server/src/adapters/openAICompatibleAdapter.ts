@@ -28,14 +28,30 @@ import axios, { AxiosResponse } from 'axios';
 import { ModelAdapter, GenerateContentOptions, GenerateContentResult, chatSessions, generateSessionId } from './base';
 import { AIProvider } from '../constants/modelProviders';
 
-// Lazy-load pdf-parse to avoid issues if not used
-let PDFParseClass: any = null;
-async function getPdfParse() {
-  if (!PDFParseClass) {
-    const mod = await import('pdf-parse');
-    PDFParseClass = mod.PDFParse;
+/** Extract plain text from a PDF buffer using pdfjs-dist (no worker needed for Node.js legacy build). */
+async function extractPdfText(buffer: Buffer): Promise<string> {
+  const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(buffer) });
+  const pdf = await loadingTask.promise;
+  const parts: string[] = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const pageText = content.items
+      .filter((item: any) => 'str' in item)
+      .map((item: any) => item.str)
+      .join(' ');
+    parts.push(pageText);
   }
-  return PDFParseClass;
+  await pdf.destroy();
+  return parts.join('\n');
+}
+
+/** Extract plain text from a DOCX buffer using mammoth. */
+async function extractDocxText(buffer: Buffer): Promise<string> {
+  const mammoth = await import('mammoth');
+  const result = await mammoth.extractRawText({ buffer });
+  return result.value;
 }
 
 /**
@@ -91,14 +107,26 @@ async function fileToContentParts(filePath: string, mimeType: string): Promise<A
 
   if (mimeType === 'application/pdf') {
     try {
-      const PDFParse = await getPdfParse();
       const buffer = fs.readFileSync(filePath);
-      const parser = new PDFParse({ data: buffer });
-      const pdfData = await parser.getText();
-      return [{ type: 'text', text: `[PDF CONTENT START]\n${pdfData.text || ''}\n[PDF CONTENT END]` }];
+      const text = await extractPdfText(buffer);
+      return [{ type: 'text', text: `[PDF CONTENT START]\n${text}\n[PDF CONTENT END]` }];
     } catch (err) {
-      console.warn('Failed to parse PDF for OpenAI-compatible adapter:', err);
-      return [{ type: 'text', text: `[PDF FILE ATTACHED: could not extract text]` }];
+      console.warn('Failed to parse PDF:', err);
+      return [{ type: 'text', text: '[PDF FILE: could not extract text — the file may be scanned or encrypted]' }];
+    }
+  }
+
+  if (
+    mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+    mimeType === 'application/msword'
+  ) {
+    try {
+      const buffer = fs.readFileSync(filePath);
+      const text = await extractDocxText(buffer);
+      return [{ type: 'text', text: `[DOCX CONTENT START]\n${text}\n[DOCX CONTENT END]` }];
+    } catch (err) {
+      console.warn('Failed to parse DOCX:', err);
+      return [{ type: 'text', text: '[DOCX FILE: could not extract text]' }];
     }
   }
 

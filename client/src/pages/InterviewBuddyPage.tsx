@@ -1,4 +1,4 @@
-// client/src/pages/InterviewBuddyPage.tsx
+﻿// client/src/pages/InterviewBuddyPage.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import { getJobs, JobApplication } from '../services/jobApi';
 import { getGlobalMaterials } from '../services/interviewMaterialsApi';
@@ -10,7 +10,7 @@ import { Button } from '../components/common';
 const COMPANION_DOWNLOAD_URL: string | null =
   import.meta.env.VITE_COMPANION_DOWNLOAD_URL || null;
 
-/* ─── Icons (inline SVGs) ─── */
+/* â”€â”€â”€ Icons (inline SVGs) â”€â”€â”€ */
 const IconMic = ({ className = '' }: { className?: string }) => (
   <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
     <path d="M12 2a3 3 0 013 3v5a3 3 0 01-6 0V5a3 3 0 013-3z" />
@@ -96,37 +96,37 @@ const IconTask = ({ className = '' }: { className?: string }) => (
   </svg>
 );
 
-/* ─── Feature data ─── */
+/* â”€â”€â”€ Feature data â”€â”€â”€ */
 const bentoCards = [
   {
     title: 'Invisible Everywhere',
     body: 'Hidden mode ensures no icons in the taskbar, dock, or active windows. Your screen stays completely private.',
-    icon: <IconEyeOff className="text-[#00754A]" />,
-    accent: 'border-l-4 border-[#00754A]',
+    icon: <IconEyeOff className="text-[var(--accent)]" />,
+    accent: 'border-l-4 border-[var(--accent)]',
     bg: 'bg-white',
     span: 'md:col-span-7',
   },
   {
     title: 'Instant Setup',
     body: 'Launch in under 10 seconds with no complex installations. Ready when you are.',
-    icon: <IconBolt className="text-[#00754A]" />,
+    icon: <IconBolt className="text-[var(--accent)]" />,
     accent: '',
-    bg: 'bg-[#D4E9E2]',
+    bg: 'bg-[var(--accent-bg)]',
     span: 'md:col-span-5',
   },
   {
     title: 'Global Shortcuts',
     body: 'Summon or hide with custom key bindings. Full control at your fingertips without touching the mouse.',
-    icon: <IconKeyboard className="text-[#00754A]" />,
+    icon: <IconKeyboard className="text-[var(--accent)]" />,
     accent: '',
-    bg: 'bg-[#EDEBE9]',
+    bg: 'bg-[var(--bg-elevated)]',
     span: 'md:col-span-5',
   },
   {
     title: 'Contextual Intelligence',
     body: 'AI maps your CV against job descriptions to surface relevant talking points in real time.',
-    icon: <IconAnalytics className="text-[#00754A]" />,
-    accent: 'border-l-4 border-[#00754A]',
+    icon: <IconAnalytics className="text-[var(--accent)]" />,
+    accent: 'border-l-4 border-[var(--accent)]',
     bg: 'bg-white',
     span: 'md:col-span-7',
   },
@@ -154,7 +154,7 @@ function formatMaterialSize(material: InterviewMaterial): string {
   return 'Size unavailable';
 }
 
-/* ─── Component ─── */
+/* â”€â”€â”€ Component â”€â”€â”€ */
 const InterviewBuddyPage: React.FC = () => {
   const [jobs, setJobs] = useState<JobApplication[]>([]);
   const [selectedJobId, setSelectedJobId] = useState<string>('');
@@ -242,7 +242,7 @@ const InterviewBuddyPage: React.FC = () => {
   const handleLaunch = () => {
     if (!selectedJobId) return;
     const token = localStorage.getItem('authToken') ?? '';
-    const deepLink = `vibehired://launch?token=${encodeURIComponent(token)}&jobId=${encodeURIComponent(selectedJobId)}&apiUrl=${encodeURIComponent(apiUrl)}&jobLanguage=${encodeURIComponent(selectedJobLanguage)}&jobLabel=${encodeURIComponent(selectedJobLabel)}&referenceMaterialIds=${encodeURIComponent(selectedReferenceIdsParam)}&activeCvId=${encodeURIComponent(selectedActiveCvId)}`;
+    const deepLink = `hirenest://launch?token=${encodeURIComponent(token)}&jobId=${encodeURIComponent(selectedJobId)}&apiUrl=${encodeURIComponent(apiUrl)}&jobLanguage=${encodeURIComponent(selectedJobLanguage)}&jobLabel=${encodeURIComponent(selectedJobLabel)}&referenceMaterialIds=${encodeURIComponent(selectedReferenceIdsParam)}&activeCvId=${encodeURIComponent(selectedActiveCvId)}`;
 
     setLaunching(true);
     setCompanionStatus('unknown');
@@ -266,38 +266,38 @@ const InterviewBuddyPage: React.FC = () => {
     return () => window.removeEventListener('focus', onFocus);
   }, [launching]);
 
-  /* ─── Render helpers ─── */
+  /* â”€â”€â”€ Render helpers â”€â”€â”€ */
   const selectBaseClasses =
-    'w-full rounded-lg px-3 py-2.5 pr-10 text-sm outline-none transition-colors appearance-none bg-[#F2F0EB] border border-[#E0E3DE] text-[rgba(0,0,0,0.87)] focus:border-[#00754A] focus:ring-1 focus:ring-[#00754A]';
+    'w-full rounded-lg px-3 py-2.5 pr-10 text-sm outline-none transition-colors appearance-none bg-[var(--bg-elevated)] border border-[#E0E3DE] text-[var(--text-primary)] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]';
 
   return (
-    <div className="min-h-screen bg-[#F2F0EB] font-['Manrope',sans-serif] tracking-tight pb-20">
-      {/* ── Hero ── */}
+    <div className="min-h-screen bg-[var(--bg-elevated)] font-['Manrope',sans-serif] tracking-tight pb-20">
+      {/* â”€â”€ Hero â”€â”€ */}
       <header className="max-w-[1440px] mx-auto pt-10 px-5 md:px-6">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
           <div className="md:w-3/5">
             <div className="flex items-center gap-2 mb-3">
-              <IconMic className="text-[#00754A]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#00754A]">
+              <IconMic className="text-[var(--accent)]" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--accent)]">
                 Desktop Companion
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-[#006241] mb-3 tracking-tighter leading-[1.1]">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-[var(--accent)] mb-3 tracking-tighter leading-[1.1]">
               AI Interview Buddy
             </h1>
-            <p className="text-base md:text-lg text-[rgba(0,0,0,0.58)] max-w-xl leading-relaxed">
+            <p className="text-base md:text-lg text-[var(--text-secondary)] max-w-xl leading-relaxed">
               Your silent co-pilot for high-stakes interviews. Confidence delivered in a sleek, non-intrusive companion app.
             </p>
             <div className="mt-5">
               <button
                 onClick={handleLaunch}
                 disabled={!selectedJobId || launching}
-                className="inline-flex items-center justify-center gap-2 h-[50px] px-6 rounded-full bg-[#00754A] text-white text-sm font-bold shadow-[0_2px_4px_rgba(0,0,0,0.14),0_1px_2px_rgba(0,0,0,0.24)] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center justify-center gap-2 h-[50px] px-6 rounded-full bg-[var(--accent)] text-white text-sm font-bold shadow-[0_2px_4px_rgba(0,0,0,0.14),0_1px_2px_rgba(0,0,0,0.24)] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {launching ? (
                   <>
                     <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Launching…
+                    Launchingâ€¦
                   </>
                 ) : (
                   <>
@@ -311,19 +311,19 @@ const InterviewBuddyPage: React.FC = () => {
 
           {/* Decorative stat blocks instead of image */}
           <div className="md:w-2/5 w-full">
-            <div className="bg-[#D4E9E2] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.14),0_1px_2px_rgba(0,0,0,0.24)] rotate-1 max-w-[360px] ml-auto">
+            <div className="bg-[var(--accent-bg)] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.14),0_1px_2px_rgba(0,0,0,0.24)] rotate-1 max-w-[360px] ml-auto">
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-white/70 rounded-lg p-3 text-center">
-                  <p className="text-2xl font-extrabold text-[#006241]">&lt;10s</p>
-                  <p className="text-[11px] text-[rgba(0,0,0,0.58)] font-medium mt-1">Launch time</p>
+                  <p className="text-2xl font-extrabold text-[var(--accent)]">&lt;10s</p>
+                  <p className="text-[11px] text-[var(--text-secondary)] font-medium mt-1">Launch time</p>
                 </div>
                 <div className="bg-white/70 rounded-lg p-3 text-center">
-                  <p className="text-2xl font-extrabold text-[#006241]">0</p>
-                  <p className="text-[11px] text-[rgba(0,0,0,0.58)] font-medium mt-1">Taskbar icons</p>
+                  <p className="text-2xl font-extrabold text-[var(--accent)]">0</p>
+                  <p className="text-[11px] text-[var(--text-secondary)] font-medium mt-1">Taskbar icons</p>
                 </div>
                 <div className="bg-white/70 rounded-lg p-3 text-center col-span-2">
-                  <p className="text-2xl font-extrabold text-[#006241]">Stealth Mode</p>
-                  <p className="text-[11px] text-[rgba(0,0,0,0.58)] font-medium mt-1">Invisible to screen share &amp; task switch</p>
+                  <p className="text-2xl font-extrabold text-[var(--accent)]">Stealth Mode</p>
+                  <p className="text-[11px] text-[var(--text-secondary)] font-medium mt-1">Invisible to screen share &amp; task switch</p>
                 </div>
               </div>
             </div>
@@ -331,23 +331,23 @@ const InterviewBuddyPage: React.FC = () => {
         </div>
       </header>
 
-      {/* ── 3-Step Quick Setup ── */}
+      {/* â”€â”€ 3-Step Quick Setup â”€â”€ */}
       <section className="max-w-[1440px] mx-auto mt-10 px-5 md:px-6">
         <div className="bg-white rounded-xl p-6 shadow-[0_2px_4px_rgba(0,0,0,0.14),0_1px_2px_rgba(0,0,0,0.24)]">
           <div className="flex items-center gap-2 mb-5">
-            <IconTask className="text-[#00754A]" />
-            <h2 className="text-xl font-bold text-[#006241]">3-Step Quick Setup</h2>
+            <IconTask className="text-[var(--accent)]" />
+            <h2 className="text-xl font-bold text-[var(--accent)]">3-Step Quick Setup</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Step 1 */}
             <div className="space-y-2 border-l-2 border-[#D4E9E2] pl-4">
-              <span className="text-[10px] text-[#00754A] font-bold uppercase tracking-[0.2em]">Step 01</span>
-              <h3 className="font-semibold text-sm text-[rgba(0,0,0,0.87)]">Select Active Job</h3>
+              <span className="text-[10px] text-[var(--accent)] font-bold uppercase tracking-[0.2em]">Step 01</span>
+              <h3 className="font-semibold text-sm text-[var(--text-primary)]">Select Active Job</h3>
               {jobsLoading ? (
-                <div className="h-11 bg-[#F2F0EB] rounded-lg animate-pulse" />
+                <div className="h-11 bg-[var(--bg-elevated)] rounded-lg animate-pulse" />
               ) : jobs.length === 0 ? (
-                <p className="text-sm text-[rgba(0,0,0,0.58)]">No active jobs found.</p>
+                <p className="text-sm text-[var(--text-secondary)]">No active jobs found.</p>
               ) : (
                 <div className="relative">
                   <select
@@ -358,11 +358,11 @@ const InterviewBuddyPage: React.FC = () => {
                   >
                     {jobs.map((j) => (
                       <option key={j._id} value={j._id}>
-                        {j.jobTitle} — {j.companyName}
+                        {j.jobTitle} â€” {j.companyName}
                       </option>
                     ))}
                   </select>
-                  <label className="absolute left-3 top-0.5 text-[9px] font-bold text-[#00754A] uppercase tracking-wider">
+                  <label className="absolute left-3 top-0.5 text-[9px] font-bold text-[var(--accent)] uppercase tracking-wider">
                     Active Job
                   </label>
                   <span className="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#6F7A72] text-lg">
@@ -374,12 +374,12 @@ const InterviewBuddyPage: React.FC = () => {
 
             {/* Step 2 */}
             <div className="space-y-2 border-l-2 border-[#D4E9E2] pl-4">
-              <span className="text-[10px] text-[#00754A] font-bold uppercase tracking-[0.2em]">Step 02</span>
-              <h3 className="font-semibold text-sm text-[rgba(0,0,0,0.87)]">Select Active CV</h3>
+              <span className="text-[10px] text-[var(--accent)] font-bold uppercase tracking-[0.2em]">Step 02</span>
+              <h3 className="font-semibold text-sm text-[var(--text-primary)]">Select Active CV</h3>
               {cvLoading ? (
-                <div className="h-11 bg-[#F2F0EB] rounded-lg animate-pulse" />
+                <div className="h-11 bg-[var(--bg-elevated)] rounded-lg animate-pulse" />
               ) : activeCvOptions.length === 0 ? (
-                <p className="text-sm text-[rgba(0,0,0,0.58)]">No CVs found.</p>
+                <p className="text-sm text-[var(--text-secondary)]">No CVs found.</p>
               ) : (
                 <div className="relative">
                   <select
@@ -394,7 +394,7 @@ const InterviewBuddyPage: React.FC = () => {
                       </option>
                     ))}
                   </select>
-                  <label className="absolute left-3 top-0.5 text-[9px] font-bold text-[#00754A] uppercase tracking-wider">
+                  <label className="absolute left-3 top-0.5 text-[9px] font-bold text-[var(--accent)] uppercase tracking-wider">
                     Active CV
                   </label>
                   <span className="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#6F7A72] text-lg">
@@ -406,12 +406,12 @@ const InterviewBuddyPage: React.FC = () => {
 
             {/* Step 3 */}
             <div className="space-y-2 border-l-2 border-[#D4E9E2] pl-4">
-              <span className="text-[10px] text-[#00754A] font-bold uppercase tracking-[0.2em]">Step 03</span>
-              <h3 className="font-semibold text-sm text-[rgba(0,0,0,0.87)]">Launch &amp; Excel</h3>
+              <span className="text-[10px] text-[var(--accent)] font-bold uppercase tracking-[0.2em]">Step 03</span>
+              <h3 className="font-semibold text-sm text-[var(--text-primary)]">Launch &amp; Excel</h3>
               <button
                 onClick={handleLaunch}
                 disabled={!selectedJobId || launching}
-                className="w-full h-11 bg-[#006241] text-white rounded-full text-sm font-bold flex items-center justify-center gap-2 active:scale-95 transition-all duration-200 shadow-[0_2px_4px_rgba(0,0,0,0.14),0_1px_2px_rgba(0,0,0,0.24)] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full h-11 bg-[var(--accent)] text-white rounded-full text-sm font-bold flex items-center justify-center gap-2 active:scale-95 transition-all duration-200 shadow-[0_2px_4px_rgba(0,0,0,0.14),0_1px_2px_rgba(0,0,0,0.24)] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span className="material-symbols-outlined text-lg">rocket_launch</span>
                 Ready to Start
@@ -421,7 +421,7 @@ const InterviewBuddyPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Reference Documents (Prep Library) ── */}
+      {/* â”€â”€ Reference Documents (Prep Library) â”€â”€ */}
       <section className="max-w-[1440px] mx-auto mt-6 px-5 md:px-6">
         <div className="bg-white rounded-xl p-6 shadow-[0_2px_4px_rgba(0,0,0,0.14),0_1px_2px_rgba(0,0,0,0.24)]">
           <button
@@ -430,9 +430,9 @@ const InterviewBuddyPage: React.FC = () => {
             className="w-full flex items-center justify-between text-left"
           >
             <div>
-              <h3 className="text-sm font-bold text-[rgba(0,0,0,0.87)]">Reference Documents (Prep Library)</h3>
-              <p className="text-[12px] text-[rgba(0,0,0,0.58)] mt-0.5">
-                {selectedMaterialIds.length} attached · Optional context for AI answers
+              <h3 className="text-sm font-bold text-[var(--text-primary)]">Reference Documents (Prep Library)</h3>
+              <p className="text-[12px] text-[var(--text-secondary)] mt-0.5">
+                {selectedMaterialIds.length} attached Â· Optional context for AI answers
               </p>
             </div>
             <span className="material-symbols-outlined text-[#6F7A72] text-lg">
@@ -443,23 +443,23 @@ const InterviewBuddyPage: React.FC = () => {
           {showReferenceSection && (
             <div className="mt-4 pt-4 border-t border-[#E0E3DE]">
               {materialsLoading ? (
-                <p className="text-[13px] text-[rgba(0,0,0,0.58)]">Loading Prep Library documents…</p>
+                <p className="text-[13px] text-[var(--text-secondary)]">Loading Prep Library documentsâ€¦</p>
               ) : materials.length === 0 ? (
-                <p className="text-[13px] text-[rgba(0,0,0,0.58)]">No Prep Library documents found.</p>
+                <p className="text-[13px] text-[var(--text-secondary)]">No Prep Library documents found.</p>
               ) : (
                 <>
                   <div className="flex items-center gap-2 mb-3">
                     <button
                       type="button"
                       onClick={() => setSelectedMaterialIds(materials.map((m) => m._id))}
-                      className="text-[11px] px-3 py-1.5 rounded-full bg-[#F2F0EB] text-[rgba(0,0,0,0.87)] font-semibold hover:bg-[#E0E3DE] transition-colors"
+                      className="text-[11px] px-3 py-1.5 rounded-full bg-[var(--bg-elevated)] text-[var(--text-primary)] font-semibold hover:bg-[#E0E3DE] transition-colors"
                     >
                       Attach all
                     </button>
                     <button
                       type="button"
                       onClick={() => setSelectedMaterialIds([])}
-                      className="text-[11px] px-3 py-1.5 rounded-full bg-[#F2F0EB] text-[rgba(0,0,0,0.87)] font-semibold hover:bg-[#E0E3DE] transition-colors"
+                      className="text-[11px] px-3 py-1.5 rounded-full bg-[var(--bg-elevated)] text-[var(--text-primary)] font-semibold hover:bg-[#E0E3DE] transition-colors"
                     >
                       Clear
                     </button>
@@ -471,21 +471,21 @@ const InterviewBuddyPage: React.FC = () => {
                         <label
                           key={material._id}
                           className={`flex items-start gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors ${
-                            checked ? 'bg-[#D4E9E2]/40' : 'hover:bg-[#F2F0EB]/50'
+                            checked ? 'bg-[var(--accent-bg)]/40' : 'hover:bg-[var(--bg-elevated)]/50'
                           }`}
                         >
                           <input
                             type="checkbox"
                             checked={checked}
                             onChange={() => toggleMaterialSelection(material._id)}
-                            className="mt-0.5 accent-[#00754A]"
+                            className="mt-0.5 accent-[var(--accent)]"
                           />
                           <span className="min-w-0">
-                            <span className="block text-[13px] font-medium truncate text-[rgba(0,0,0,0.87)]">
+                            <span className="block text-[13px] font-medium truncate text-[var(--text-primary)]">
                               {material.title}
                             </span>
-                            <span className="block text-[11px] text-[rgba(0,0,0,0.58)]">
-                              {material.type.toUpperCase()} · {formatMaterialSize(material)}
+                            <span className="block text-[11px] text-[var(--text-secondary)]">
+                              {material.type.toUpperCase()} Â· {formatMaterialSize(material)}
                             </span>
                           </span>
                         </label>
@@ -499,12 +499,12 @@ const InterviewBuddyPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Hotkeys ── */}
+      {/* â”€â”€ Hotkeys â”€â”€ */}
       <section className="max-w-[1440px] mx-auto mt-6 px-5 md:px-6">
         <div className="bg-white rounded-xl p-6 shadow-[0_2px_4px_rgba(0,0,0,0.14),0_1px_2px_rgba(0,0,0,0.24)]">
           <div className="flex items-center gap-2 mb-4">
-            <IconKeyboard className="text-[#00754A]" />
-            <h2 className="text-lg font-bold text-[#006241]">Global Shortcuts</h2>
+            <IconKeyboard className="text-[var(--accent)]" />
+            <h2 className="text-lg font-bold text-[var(--accent)]">Global Shortcuts</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {hotkeys.map((hk) => (
@@ -512,11 +512,11 @@ const InterviewBuddyPage: React.FC = () => {
                 key={hk.action}
                 className="flex items-center justify-between rounded-lg px-4 py-3 bg-[#F9F9F9] border border-[#E0E3DE]"
               >
-                <span className="text-sm text-[rgba(0,0,0,0.87)] font-medium">{hk.action}</span>
+                <span className="text-sm text-[var(--text-primary)] font-medium">{hk.action}</span>
                 <div className="flex items-center gap-1">
                   {hk.keys.map((k, i) => (
                     <React.Fragment key={k}>
-                      <kbd className="inline-flex items-center justify-center min-w-[28px] h-7 px-1.5 rounded-md bg-white border border-[#BEC9C0] text-[11px] font-bold text-[rgba(0,0,0,0.87)] shadow-sm">
+                      <kbd className="inline-flex items-center justify-center min-w-[28px] h-7 px-1.5 rounded-md bg-white border border-[#BEC9C0] text-[11px] font-bold text-[var(--text-primary)] shadow-sm">
                         {k}
                       </kbd>
                       {i < hk.keys.length - 1 && (
@@ -531,8 +531,8 @@ const InterviewBuddyPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Feature Bento Grid ── */}
-      <section className="bg-[#1E3932] text-white py-10 mt-10">
+      {/* â”€â”€ Feature Bento Grid â”€â”€ */}
+      <section className="bg-[var(--text-primary)] text-white py-10 mt-10">
         <div className="max-w-[1440px] mx-auto px-5 md:px-6">
           <h2 className="text-2xl md:text-3xl font-extrabold tracking-tighter text-white mb-6">
             Engineered for Stealth.
@@ -544,8 +544,8 @@ const InterviewBuddyPage: React.FC = () => {
                 className={`${card.span} ${card.bg} ${card.accent} rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.14),0_1px_2px_rgba(0,0,0,0.24)] flex flex-col gap-2`}
               >
                 <div className="mb-1">{card.icon}</div>
-                <h3 className="font-bold text-lg text-[#006241]">{card.title}</h3>
-                <p className="text-sm text-[rgba(0,0,0,0.58)] leading-relaxed">{card.body}</p>
+                <h3 className="font-bold text-lg text-[var(--accent)]">{card.title}</h3>
+                <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{card.body}</p>
               </div>
             ))}
           </div>
@@ -557,3 +557,5 @@ const InterviewBuddyPage: React.FC = () => {
 };
 
 export default InterviewBuddyPage;
+
+

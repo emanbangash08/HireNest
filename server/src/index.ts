@@ -5,6 +5,7 @@ import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { createServer } from 'http';
+import path from 'path';
 import { closeBrowser } from './utils/pdfGenerator'; // Assuming this is still needed
 
 // Import routes
@@ -44,6 +45,7 @@ import { installExternalCallTracking } from './services/externalCallTracking';
 import { createRequestContextMiddleware } from './services/requestContext';
 import { initializeScheduler } from './utils/scheduler';
 import { getAllowedFrontendOrigins } from './config/frontend';
+import { verifySmtpConnection } from './utils/emailService';
 // Import providers to ensure they register themselves
 import './providers';
 
@@ -58,7 +60,7 @@ app.set('trust proxy', 1);
 
 // CORS Configuration
 // FRONTEND_URL may be a single origin or a comma-separated list of origins,
-// e.g. "https://vibehired.ganainy.dev,https://vibehired-ai.netlify.app"
+// e.g. "https://hirenest.ganainy.dev,https://hirenest-ai.netlify.app"
 const allowedOrigins = getAllowedFrontendOrigins();
 
 const corsOptions = {
@@ -150,6 +152,13 @@ app.use('/api/admin', adminRoutes); // Admin management (protected)
 app.use('/api/errors', errorRoutes); // Public error reporting
 app.use('/api/transcribe', protect, transcriptionRoutes); // Audio transcription (protected)
 
+// Serve React frontend in production (built files from client/dist)
+const clientDist = path.join(__dirname, '..', '..', 'client', 'dist');
+app.use(express.static(clientDist));
+app.get('*', (_req: Request, res: Response) => {
+  res.sendFile(path.join(clientDist, 'index.html'));
+});
+
 // Error handling middleware (must be last)
 app.use(errorHandler);
 
@@ -162,8 +171,24 @@ if (!mongoUri) {
 }
 
 mongoose.connect(mongoUri)
-  .then(() => {
+  .then(async () => {
     console.log('MongoDB Connected Successfully');
+
+    // Fix stale non-sparse index on jobapplications so pasted jobs (jobId: null) don't collide
+    try {
+      const jobAppCollection = mongoose.connection.collection('jobapplications');
+      const indexes = await jobAppCollection.indexes();
+      const stale = indexes.find((idx: any) => idx.name === 'userId_1_jobId_1' && !idx.sparse);
+      if (stale) {
+        await jobAppCollection.dropIndex('userId_1_jobId_1');
+        console.log('[Startup] Dropped stale non-sparse userId_1_jobId_1 index — Mongoose will recreate it as sparse');
+      }
+    } catch (e) {
+      console.warn('[Startup] Index fix skipped:', e);
+    }
+
+    // Verify SMTP on startup so misconfiguration is caught immediately
+    await verifySmtpConnection();
 
     // Start listening only after successful DB connection
     initializeScheduler();

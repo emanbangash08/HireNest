@@ -214,8 +214,8 @@ const renderWithPuppeteer = async (
     try {
         const processedHtml = prepareHtmlForPuppeteer(htmlContent, useAts);
 
-        await page.goto('about:blank', { waitUntil: 'networkidle0' });
-        await page.setContent(processedHtml, { waitUntil: 'networkidle0' });
+        await page.goto('about:blank', { waitUntil: 'load' });
+        await page.setContent(processedHtml, { waitUntil: 'load' });
 
         // Wait for fonts to load (important for ATS template)
         if (useAts) {
@@ -298,8 +298,8 @@ export const generateCvPdfFromJsonResume = async (
         try {
             const processedHtml = prepareHtmlForPuppeteer(htmlContent, !!atsOptions);
 
-            await page.goto('about:blank', { waitUntil: 'networkidle0' });
-            await page.setContent(processedHtml, { waitUntil: 'networkidle0' });
+            await page.goto('about:blank', { waitUntil: 'load' });
+            await page.setContent(processedHtml, { waitUntil: 'load' });
 
             if (atsOptions) {
                 await page.evaluate(() => document.fonts.ready);
@@ -344,7 +344,7 @@ export const generateCoverLetterPdf = async (
 
         const htmlContent = getCoverLetterHtml(coverLetterText, cvJsonResumeObject || {});
 
-        await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+        await page.setContent(htmlContent, { waitUntil: 'load' });
         const pdfBuffer = await page.pdf({
             format: 'A4',
             printBackground: true,

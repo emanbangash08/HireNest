@@ -15,7 +15,7 @@ import { InternalServerError } from '../utils/errors/AppError';
  */
 export const getGithubRepos = asyncHandler(
   async (req: Request, res: Response) => {
-    const { username } = req.params;
+    const username = req.params.username as string;
     const userId = (req as any).user?._id?.toString();
 
     try {
@@ -40,7 +40,7 @@ export const getGithubRepos = asyncHandler(
  * GET /api/github/skills/:username
  */
 export const getSkills = asyncHandler(async (req: Request, res: Response) => {
-  const { username } = req.params;
+  const username = req.params.username as string;
   const userId = (req as any).user?._id?.toString();
 
   try {

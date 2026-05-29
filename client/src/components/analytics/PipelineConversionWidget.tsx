@@ -1,4 +1,4 @@
-
+﻿
 import React from 'react';
 import { ApplicationStats } from '../../services/analyticsApi';
 
@@ -46,7 +46,7 @@ export const PipelineConversionWidget: React.FC<PipelineConversionWidgetProps> =
                         <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{data.applied}</span>
                     </div>
                     <div className="h-2 rounded-full overflow-hidden" style={{ background: 'var(--bg-elevated)' }}>
-                        <div className="h-full rounded-full transition-all duration-500" style={{ width: data.applied > 0 ? '100%' : '0%', background: '#00754A' }}></div>
+                        <div className="h-full rounded-full transition-all duration-500" style={{ width: data.applied > 0 ? '100%' : '0%', background: 'var(--accent)' }}></div>
                     </div>
                 </div>
 
@@ -120,3 +120,4 @@ export const PipelineConversionWidget: React.FC<PipelineConversionWidgetProps> =
         </div>
     );
 };
+

@@ -12,7 +12,7 @@ import { getApiToken, fetchUserRepositories, transformGitHubRepoToProject } from
  */
 export const getProjectsByUsername = asyncHandler(
   async (req: Request, res: Response) => {
-    const { username } = req.params;
+    const username = req.params.username as string;
 
     // Find user by username only
     const user = await User.findOne({ username: username });
@@ -162,7 +162,7 @@ export const createProject = asyncHandler(async (req: Request, res: Response) =>
  */
 export const updateProject = asyncHandler(
   async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = req.params.id as string;
     if (!req.user || !req.user._id) {
       throw new InternalServerError('User not authenticated');
     }
@@ -226,7 +226,7 @@ export const updateProjectOrders = asyncHandler(
  */
 export const deleteProject = asyncHandler(
   async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id = req.params.id as string;
     if (!req.user || !req.user._id) {
       throw new InternalServerError('User not authenticated');
     }

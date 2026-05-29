@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { JobApplication } from '../../services/jobApi';
 import { Link } from 'react-router-dom';
 import { DataTable, DataTableColumn } from '../common/DataTable';
@@ -10,7 +10,7 @@ interface RecentActivityWidgetProps {
 const statusConfig: Record<string, { bg: string; text: string; dot: string }> = {
   'Applied': {
     bg: 'rgba(0, 98, 65, 0.08)',
-    text: '#006241',
+    text: 'var(--accent)',
     dot: '#22c55e',
   },
   'Interview': {
@@ -20,7 +20,7 @@ const statusConfig: Record<string, { bg: string; text: string; dot: string }> = 
   },
   'Offer': {
     bg: 'rgba(0, 98, 65, 0.12)',
-    text: '#006241',
+    text: 'var(--accent)',
     dot: '#10b981',
   },
   'Rejected': {
@@ -164,3 +164,4 @@ export const RecentActivityWidget: React.FC<RecentActivityWidgetProps> = ({ jobs
     </div>
   );
 };
+

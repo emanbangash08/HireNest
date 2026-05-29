@@ -1,4 +1,4 @@
-// client/src/pages/CalendarPage.tsx
+﻿// client/src/pages/CalendarPage.tsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
     Calendar,
@@ -41,7 +41,7 @@ import {
 import SimpleLoader from '../components/common/SimpleLoader';
 import ConfirmModal from '../components/common/ConfirmModal';
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export type TimeFilter =
     | '7d'
@@ -71,7 +71,7 @@ const FILTER_OPTIONS: FilterOption[] = [
     { id: 'nextYear', label: 'Next Year' },
 ];
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function getFilterRange(filter: TimeFilter): { timeMin: string; timeMax?: string } {
     const now = new Date();
@@ -165,7 +165,7 @@ function isToday(dateKey: string): boolean {
 function getEventCategory(summary: string = ''): { label: string; color: string; bg: string; border: string; icon: React.ReactNode } {
     const s = summary.toLowerCase();
     if (s.includes('interview') || s.includes('screening')) {
-        return { label: 'Interview', color: '#006241', bg: 'rgba(0,98,65,0.08)', border: 'rgba(0,98,65,0.2)', icon: <Users size={12} /> };
+        return { label: 'Interview', color: 'var(--accent)', bg: 'var(--accent-bg)', border: 'rgba(79,70,229,0.2)', icon: <Users size={12} /> };
     }
     if (s.includes('sync') || s.includes('standup') || s.includes('team')) {
         return { label: 'Team', color: '#1E3932', bg: 'rgba(30,57,50,0.08)', border: 'rgba(30,57,50,0.2)', icon: <Video size={12} /> };
@@ -174,7 +174,7 @@ function getEventCategory(summary: string = ''): { label: string; color: string;
         return { label: 'Product', color: '#8a6d2b', bg: 'rgba(203,162,88,0.12)', border: 'rgba(203,162,88,0.25)', icon: <Star size={12} /> };
     }
     if (s.includes('workshop') || s.includes('coffee') || s.includes('community')) {
-        return { label: 'Event', color: '#00754A', bg: 'rgba(0,117,74,0.08)', border: 'rgba(0,117,74,0.2)', icon: <Sparkles size={12} /> };
+        return { label: 'Event', color: 'var(--accent)', bg: 'var(--accent-bg)', border: 'rgba(79,70,229,0.2)', icon: <Sparkles size={12} /> };
     }
     return { label: 'Meeting', color: 'var(--text-secondary)', bg: 'var(--bg-elevated)', border: 'var(--border)', icon: <CalendarDays size={12} /> };
 }
@@ -212,7 +212,7 @@ function getMonthGrid(year: number, month: number): (Date | null)[][] {
 
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
-// ─── Sub-components ──────────────────────────────────────────────────────────
+// â”€â”€â”€ Sub-components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface EventRowProps {
     event: CalendarEvent;
@@ -249,7 +249,7 @@ const EventRow: React.FC<EventRowProps> = ({ event, onEdit, onDelete }) => {
             {/* Time column */}
             <div className="flex flex-col items-center justify-center min-w-[64px] py-1 border-r border-dashed shrink-0" style={{ borderColor: 'var(--border-subtle)' }}>
                 <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
-                    {isAllDay ? '—' : formatTime(event.start).replace(/\s[AP]M/, '')}
+                    {isAllDay ? 'â€”' : formatTime(event.start).replace(/\s[AP]M/, '')}
                 </span>
                 {!isAllDay && (
                     <span className="text-[11px] font-medium uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
@@ -345,7 +345,7 @@ const LoadingSkeleton: React.FC = () => (
     </div>
 );
 
-// ─── Mini Calendar ───────────────────────────────────────────────────────────
+// â”€â”€â”€ Mini Calendar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface MiniCalendarProps {
     events: CalendarEvent[];
@@ -457,7 +457,7 @@ const MiniCalendar: React.FC<MiniCalendarProps> = ({ events, onDateSelect }) => 
     );
 };
 
-// ─── Month Grid View ─────────────────────────────────────────────────────────
+// â”€â”€â”€ Month Grid View â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface MonthGridViewProps {
     events: CalendarEvent[];
@@ -595,7 +595,7 @@ const MonthGridView: React.FC<MonthGridViewProps> = ({ events, onEdit, onDelete 
                                             }}
                                             title={ev.summary}
                                         >
-                                            {!ev.start.dateTime && ev.start.date ? 'All day' : formatTime(ev.start)} · {ev.summary}
+                                            {!ev.start.dateTime && ev.start.date ? 'All day' : formatTime(ev.start)} Â· {ev.summary}
                                         </button>
                                     );
                                 })}
@@ -613,7 +613,7 @@ const MonthGridView: React.FC<MonthGridViewProps> = ({ events, onEdit, onDelete 
     );
 };
 
-// ─── Event Modal ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ Event Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface EventModalProps {
     event?: CalendarEvent | null;
@@ -791,7 +791,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose, onSave }) => {
     );
 };
 
-// ─── Main Page ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ Main Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const CalendarPage: React.FC = () => {
     const [connected, setConnected] = useState<boolean | null>(null);
@@ -984,37 +984,31 @@ const CalendarPage: React.FC = () => {
         return d >= now && d <= weekFromNow;
     }).length;
 
-    // ─── Render ──────────────────────────────────────────────────────────────
+    // â”€â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     return (
         <div className="space-y-6 max-w-[1440px] mx-auto">
             {/* Page Header */}
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-                <div className="space-y-1">
-                    <div className="flex items-center gap-3">
-                        <div
-                            className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                            style={{
-                                background: 'var(--accent-bg)',
-                                border: '1px solid rgba(0,98,65,0.15)',
-                                color: 'var(--accent)',
-                            }}
-                        >
-                            <CalendarDays size={22} />
-                        </div>
-                        <div>
-                            <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                                Your Calendar
-                            </h1>
-                            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                                Stay organized with your upcoming events and schedule
-                            </p>
-                        </div>
-                    </div>
+            <div className="relative rounded-2xl overflow-hidden border px-6 py-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4" style={{ background: 'var(--bg-surface)', borderColor: 'var(--border)' }}>
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
+                        <defs><pattern id="cal-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="var(--accent)" /></pattern></defs>
+                        <rect width="100%" height="100%" fill="url(#cal-dots)" />
+                    </svg>
+                    <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-[0.04]" style={{ backgroundColor: 'var(--accent)' }} />
+                </div>
+                <div className="relative z-10">
+                    <p className="text-[11px] uppercase tracking-[0.12em] font-semibold mb-1" style={{ color: 'var(--accent)' }}>Schedule</p>
+                    <h1 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
+                        Your Calendar
+                    </h1>
+                    <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+                        All your events and deadlines, synced with Google Calendar.
+                    </p>
                 </div>
 
                 {connected && (
-                    <div className="flex flex-wrap items-center gap-3">
+                    <div className="relative z-10 flex flex-wrap items-center gap-3">
                         {/* View Toggle */}
                         <div className="flex items-center p-1 rounded-full" style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)' }}>
                             <button
@@ -1087,7 +1081,7 @@ const CalendarPage: React.FC = () => {
                     <span className="text-sm">Checking connection</span>
                 </div>
             ) : !connected ? (
-                /* ─── NOT CONNECTED ─── */
+                /* â”€â”€â”€ NOT CONNECTED â”€â”€â”€ */
                 <div className="flex items-center justify-center py-10">
                     <div
                         className="p-8 sm:p-10 flex flex-col items-center text-center gap-6"
@@ -1116,7 +1110,7 @@ const CalendarPage: React.FC = () => {
                                 Connect Google Calendar
                             </h2>
                             <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                                Sync your Google Calendar to view upcoming appointments, interviews, and scheduled events right here in VibeHired.
+                                Sync your Google Calendar to view upcoming appointments, interviews, and scheduled events right here in HireNest.
                             </p>
                         </div>
 
@@ -1163,7 +1157,7 @@ const CalendarPage: React.FC = () => {
                     </div>
                 </div>
             ) : (
-                /* ─── CONNECTED ─── */
+                /* â”€â”€â”€ CONNECTED â”€â”€â”€ */
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     {/* Sidebar */}
                     <aside className="lg:col-span-4 xl:col-span-3 space-y-5">
@@ -1195,8 +1189,8 @@ const CalendarPage: React.FC = () => {
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 mb-4">
-                                <span className="w-2 h-2 rounded-full" style={{ background: '#00754A', boxShadow: '0 0 0 3px rgba(0,117,74,0.15)' }} />
-                                <span className="text-xs font-semibold" style={{ color: '#00754A' }}>Live Syncing Active</span>
+                                <span className="w-2 h-2 rounded-full" style={{ background: 'var(--accent)', boxShadow: '0 0 0 3px rgba(0,117,74,0.15)' }} />
+                                <span className="text-xs font-semibold" style={{ color: 'var(--accent)' }}>Live Syncing Active</span>
                             </div>
                             <div className="flex gap-2">
                                 <button
@@ -1404,3 +1398,5 @@ const CalendarPage: React.FC = () => {
 };
 
 export default CalendarPage;
+
+

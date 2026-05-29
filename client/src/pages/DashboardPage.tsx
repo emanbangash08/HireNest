@@ -1337,19 +1337,19 @@ const statusOptionColors: Record<JobApplication['status'], { dot: string; text: 
  const getStatusBadgeStyles = (status: string) => {
  switch (status) {
  case 'Interview':
- return { bg: '#faf6ee', color: '#cba258', border: 'rgba(223,196,157,0.30)' };
+ return { bg: 'rgba(245,158,11,0.08)', color: 'var(--amber)', border: 'rgba(245,158,11,0.25)' };
  case 'Applied':
- return { bg: '#d4e9e2', color: '#006241', border: 'rgba(0,117,74,0.20)' };
+ return { bg: 'var(--accent-bg)', color: 'var(--accent)', border: 'rgba(79,70,229,0.2)' };
  case 'Offer':
- return { bg: '#d4e9e2', color: '#006241', border: 'rgba(0,117,74,0.20)' };
+ return { bg: 'var(--jade-bg)', color: 'var(--jade)', border: 'rgba(5,150,105,0.2)' };
  case 'Assessment':
- return { bg: 'var(--ember-bg)', color: '#d4a017', border: 'rgba(212,160,23,0.20)' };
+ return { bg: 'var(--ember-bg)', color: 'var(--ember)', border: 'rgba(217,119,6,0.20)' };
  case 'Rejected':
- return { bg: 'var(--rose-bg)', color: '#c82014', border: 'rgba(200,32,20,0.20)' };
+ return { bg: 'var(--rose-bg)', color: 'var(--rose)', border: 'rgba(220,38,38,0.20)' };
  case 'Closed':
- return { bg: '#f5f5f4', color: '#78716c', border: '#e7e5e4' };
+ return { bg: 'var(--bg-elevated)', color: 'var(--text-muted)', border: 'var(--border)' };
  default:
- return { bg: '#f5f5f4', color: '#78716c', border: '#e7e5e4' };
+ return { bg: 'var(--bg-elevated)', color: 'var(--text-muted)', border: 'var(--border)' };
  }
  };
 
@@ -1380,7 +1380,7 @@ const statusOptionColors: Record<JobApplication['status'], { dot: string; text: 
  )}
  </div>
  <div>
- <h3 className={`font-manrope font-extrabold text-xl tracking-tight ${isArchived ? 'line-through opacity-60' : ''}`} style={{ color: isArchived ? '#a8a29e' : 'var(--accent)' }}>
+ <h3 className={`font-semibold text-xl tracking-tight ${isArchived ? 'line-through opacity-60' : ''}`} style={{ fontFamily: 'var(--font-display)', color: isArchived ? 'var(--text-muted)' : 'var(--text-primary)' }}>
  {job.jobTitle}
  </h3>
  <p className="font-semibold text-sm" style={{ color: isArchived ? '#a8a29e' : '#78716c' }}>{job.companyName}</p>
@@ -1608,27 +1608,43 @@ const statusOptionColors: Record<JobApplication['status'], { dot: string; text: 
 
  {/* Main Content */}
  <div id="main-content" className="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-6xl mx-auto w-full">
- {/* Title and Stats Brief */}
- <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
- <div>
- <h1 className="text-3xl font-black tracking-tight font-manrope" style={{ color: 'var(--accent)' }}>Applications</h1>
- <p className="font-medium mt-1" style={{ color: '#78716c' }}>Tracking your career journey</p>
+ {/* Page Header */}
+ <div className="relative mb-8 rounded-2xl overflow-hidden border" style={{ background: 'var(--bg-surface)', borderColor: 'var(--border)' }}>
+ {/* Decorative dot grid */}
+ <div className="absolute inset-0 pointer-events-none overflow-hidden">
+ <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+ <pattern id="dash-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+ <circle cx="2" cy="2" r="1.5" fill="var(--accent)" />
+ </pattern>
+ </defs>
+ <rect width="100%" height="100%" fill="url(#dash-dots)" />
+ </svg>
+ <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full opacity-[0.04]" style={{ backgroundColor: 'var(--accent)' }} />
+ <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full opacity-[0.03]" style={{ backgroundColor: 'var(--accent)' }} />
  </div>
- <div className="flex gap-4 text-sm font-bold" style={{ color: '#57534e' }}>
+ <div className="relative z-10 px-6 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+ <div>
+ <p className="text-[11px] uppercase tracking-[0.12em] font-semibold mb-1" style={{ color: 'var(--accent)' }}>Job Tracker</p>
+ <h1 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>Your applications</h1>
+ <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Every role, deadline, and interview — all in one place.</p>
+ </div>
+ <div className="flex gap-3 text-sm font-medium">
  {(() => {
  const activeCount = allJobs.filter(j => !['Rejected', 'Archived', 'Withdrawn'].includes(j.status)).length;
  const interviewCount = allJobs.filter(j => j.status && j.status.toLowerCase().includes('interview')).length;
  return (
  <>
- <div className="px-4 py-2 rounded-xl border" style={{ background: 'rgba(255,255,255,0.50)', borderColor: 'rgba(231,229,228,0.50)' }}>
- <span style={{ color: 'var(--accent)' }}>{activeCount}</span> Active
+ <div className="px-4 py-2.5 rounded-xl border" style={{ background: 'var(--accent-bg)', borderColor: 'var(--border-bright)', color: 'var(--text-secondary)' }}>
+ <span className="font-bold text-base mr-1" style={{ color: 'var(--accent)' }}>{activeCount}</span>Active
  </div>
- <div className="px-4 py-2 rounded-xl border" style={{ background: 'rgba(255,255,255,0.50)', borderColor: 'rgba(231,229,228,0.50)' }}>
- <span style={{ color: 'var(--amber)' }}>{interviewCount}</span> Interviews
+ <div className="px-4 py-2.5 rounded-xl border" style={{ background: 'rgba(245,158,11,0.06)', borderColor: 'rgba(245,158,11,0.25)', color: 'var(--text-secondary)' }}>
+ <span className="font-bold text-base mr-1" style={{ color: 'var(--amber)' }}>{interviewCount}</span>Interviews
  </div>
  </>
  );
  })()}
+ </div>
  </div>
  </div>
 
@@ -1644,13 +1660,13 @@ const statusOptionColors: Record<JobApplication['status'], { dot: string; text: 
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
  <div>
  <p className="text-[11px] uppercase tracking-[0.12em] font-semibold" style={{ color: 'var(--accent)' }}>
- Start Here
+ Get started
  </p>
- <h2 className="text-lg sm:text-xl font-semibold mt-1" style={{ color: 'var(--text-primary)' }}>
- Get your first tailored application in 3 steps
+ <h2 className="text-lg sm:text-xl font-semibold mt-1" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
+ Your first tailored application in 3 steps
  </h2>
  <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
- Keep this sequence: add your CV first, then add a job, then generate a tailored CV + cover letter and keep going.
+ Upload your CV, add a target role, then generate a tailored CV and cover letter in seconds.
  </p>
  </div>
  <button

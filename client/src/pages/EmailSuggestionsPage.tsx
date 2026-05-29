@@ -1,4 +1,4 @@
-// client/src/pages/EmailSuggestionsPage.tsx
+﻿// client/src/pages/EmailSuggestionsPage.tsx
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/common/Spinner';
@@ -26,7 +26,7 @@ import {
 } from '../services/jobApi';
 import EditSuggestionModal from '../components/email-suggestions/EditSuggestionModal';
 
-// ─── Icons ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const InboxIcon = () => (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
@@ -171,7 +171,7 @@ const SearchIcon = () => (
     </svg>
 );
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function formatCalEventDate(iso: string | null | undefined): string {
     if (!iso) return 'Date not specified';
@@ -201,14 +201,14 @@ function formatRelativeTime(iso: string | null | undefined): string {
 
 const STATUS_COLORS: Record<string, string> = {
     Interview: '#1E3932',
-    Assessment: '#d4a017',
+    Assessment: 'var(--ember)',
     Rejected: '#c82014',
-    Offer: '#006241',
+    Offer: 'var(--accent)',
 };
 
 const CONFIDENCE_COLORS: Record<string, string> = {
-    high: '#006241',
-    medium: '#d4a017',
+    high: 'var(--accent)',
+    medium: 'var(--ember)',
     low: '#c82014',
 };
 
@@ -242,7 +242,7 @@ function StatusPill({ status }: { status: string | null }) {
     );
 }
 
-// ─── How it works ────────────────────────────────────────────────────────────
+// â”€â”€â”€ How it works â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const HOW_IT_WORKS = [
     {
@@ -270,14 +270,14 @@ const HOW_IT_WORKS = [
 function buildPollToast(r: PollNowResult): string {
     if (r.scanned === 0) return 'No new emails to scan.';
     const scannedPart = `Scanned ${r.scanned} email${r.scanned !== 1 ? 's' : ''}`;
-    if ((r.applicationResponses + r.jobLeads) === 0) return `${scannedPart} — no job-related emails found.`;
+    if ((r.applicationResponses + r.jobLeads) === 0) return `${scannedPart} â€” no job-related emails found.`;
     const parts: string[] = [];
     if (r.applicationResponses > 0) parts.push(`${r.applicationResponses} application response${r.applicationResponses !== 1 ? 's' : ''}`);
     if (r.jobLeads > 0) parts.push(`${r.jobLeads} job lead${r.jobLeads !== 1 ? 's' : ''}`);
-    return `${scannedPart} — found ${parts.join(' and ')}.`;
+    return `${scannedPart} â€” found ${parts.join(' and ')}.`;
 }
 
-// ─── Toggle sub-component ────────────────────────────────────────────────────
+// â”€â”€â”€ Toggle sub-component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function Toggle({ label, checked, onChange }: { label: string; checked: boolean; onChange: (v: boolean) => void }) {
     return (
@@ -295,7 +295,7 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
     );
 }
 
-// ─── Main Page ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ Main Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const EmailSuggestionsPage: React.FC = () => {
     const { refreshUsage } = useAuth();
@@ -439,7 +439,7 @@ const EmailSuggestionsPage: React.FC = () => {
             } else if (s.suggestedStatus) {
                 showToast(
                     `Status updated to "${s.suggestedStatus}" for ${s.matchedCompanyName ?? 'job'}.` +
-                    (result.calendarEventCreated ? ' — Calendar event created.' : ''),
+                    (result.calendarEventCreated ? ' â€” Calendar event created.' : ''),
                     'ok'
                 );
             } else if (result.calendarEventCreated) {
@@ -532,7 +532,7 @@ const EmailSuggestionsPage: React.FC = () => {
         navigate('/settings?googleCalendar');
     };
 
-    // ─── Derived data ──────────────────────────────────────────────────────────
+    // â”€â”€â”€ Derived data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     const rejectionSuggestions = suggestions.filter(s => s.suggestedStatus === 'Rejected');
     const jobLeadSuggestions = suggestions.filter(s => s.emailCategory === 'job_offer');
@@ -588,19 +588,29 @@ const EmailSuggestionsPage: React.FC = () => {
         ...visibleFollowUps.map(f => ({ type: 'follow_up' as const, data: f })),
     ];
 
-    // ─── Render ────────────────────────────────────────────────────────────────
+    // â”€â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     return (
-        <div className="min-h-screen bg-[#f2f0eb] font-manrope pb-24 lg:pb-0">
+        <div className="min-h-screen bg-[var(--bg-base)] pb-24 lg:pb-0">
             <main className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-10 py-10">
                 {/* Header */}
-                <div className="mb-10">
-                    <h1 className="text-[clamp(2rem,5vw,2.8rem)] leading-[1.2] font-semibold text-green mb-2 tracking-tight">
-                        Email Suggestions
-                    </h1>
-                    <p className="text-lg leading-[1.75] text-black/58 max-w-2xl">
-                        AI-detected updates from your job hunt. Rejections, job suggestions, and follow-ups in one place.
-                    </p>
+                <div className="relative mb-10 rounded-2xl overflow-hidden border px-6 py-5" style={{ background: 'var(--bg-surface)', borderColor: 'var(--border)' }}>
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                        <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
+                            <defs><pattern id="email-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="var(--accent)" /></pattern></defs>
+                            <rect width="100%" height="100%" fill="url(#email-dots)" />
+                        </svg>
+                        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-[0.04]" style={{ backgroundColor: 'var(--accent)' }} />
+                    </div>
+                    <div className="relative z-10">
+                        <p className="text-[11px] uppercase tracking-[0.12em] font-semibold mb-1" style={{ color: 'var(--accent)' }}>Inbox</p>
+                        <h1 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
+                            Email Suggestions
+                        </h1>
+                        <p className="text-sm mt-1 max-w-2xl" style={{ color: 'var(--text-secondary)' }}>
+                            AI-detected updates from your job hunt — rejections, opportunities, and follow-ups in one place.
+                        </p>
+                    </div>
                 </div>
 
                 {/* Search + Actions */}
@@ -623,7 +633,7 @@ const EmailSuggestionsPage: React.FC = () => {
                             type="button"
                             onClick={() => setSettingsOpen((v) => !v)}
                             title="Scan settings"
-                            className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${settingsOpen ? 'bg-white shadow-warm border-green-accent/30 text-green' : 'border-[#d4d0c8] text-black/38 hover:bg-white hover:text-black/58'}`}
+                            className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${settingsOpen ? 'bg-white shadow-warm border-green-accent/30 text-green' : 'border-[var(--border)] text-black/38 hover:bg-white hover:text-black/58'}`}
                         >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <circle cx="12" cy="12" r="3" />
@@ -646,7 +656,7 @@ const EmailSuggestionsPage: React.FC = () => {
 
                 {/* Bento Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    {/* ── Left Column ── */}
+                    {/* â”€â”€ Left Column â”€â”€ */}
                     <div className="lg:col-span-8 space-y-6">
 
                         {/* Compact Stats */}
@@ -697,7 +707,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                     <select
                                         value={scanLimit}
                                         onChange={(e) => handleScanLimitChange(Number(e.target.value))}
-                                        className="bg-[#f2f0eb] border-none rounded-pill px-4 py-2 text-sm text-black/87 focus:outline-none focus:ring-2 focus:ring-green/20 cursor-pointer"
+                                        className="bg-[var(--bg-elevated)] border-none rounded-pill px-4 py-2 text-sm text-black/87 focus:outline-none focus:ring-2 focus:ring-green/20 cursor-pointer"
                                     >
                                         <option value={25}>Last 25 emails</option>
                                         <option value={50}>Last 50 emails</option>
@@ -711,7 +721,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                     <Toggle label="Include read emails" checked={includeReadEmails} onChange={handleIncludeReadEmailsChange} />
                                 </div>
                                 <p className="text-xs text-black/58">
-                                    Processed emails are labeled <code className="bg-[#f2f0eb] px-1.5 py-0.5 rounded text-[0.7rem] font-mono text-green font-bold">vibe-hired-processed</code> in Gmail.
+                                    Processed emails are labeled <code className="bg-[var(--bg-elevated)] px-1.5 py-0.5 rounded text-[0.7rem] font-mono text-green font-bold">vibe-hired-processed</code> in Gmail.
                                 </p>
                             </div>
                         )}
@@ -807,16 +817,16 @@ const EmailSuggestionsPage: React.FC = () => {
                                     {[0, 1, 2].map((i) => (
                                         <div key={i} className="card p-6 animate-pulse">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-2xl bg-[#f2f0eb]" />
+                                                <div className="w-12 h-12 rounded-2xl bg-[var(--bg-elevated)]" />
                                                 <div className="flex-1 space-y-2">
-                                                    <div className="h-4 bg-[#f2f0eb] rounded w-1/3" />
-                                                    <div className="h-3 bg-[#f2f0eb] rounded w-1/4" />
+                                                    <div className="h-4 bg-[var(--bg-elevated)] rounded w-1/3" />
+                                                    <div className="h-3 bg-[var(--bg-elevated)] rounded w-1/4" />
                                                 </div>
                                             </div>
-                                            <div className="mt-4 h-16 bg-[#f2f0eb] rounded-xl" />
+                                            <div className="mt-4 h-16 bg-[var(--bg-elevated)] rounded-xl" />
                                             <div className="mt-4 flex justify-end gap-2">
-                                                <div className="h-8 w-20 bg-[#f2f0eb] rounded-pill" />
-                                                <div className="h-8 w-24 bg-[#f2f0eb] rounded-pill" />
+                                                <div className="h-8 w-20 bg-[var(--bg-elevated)] rounded-pill" />
+                                                <div className="h-8 w-24 bg-[var(--bg-elevated)] rounded-pill" />
                                             </div>
                                         </div>
                                     ))}
@@ -825,7 +835,7 @@ const EmailSuggestionsPage: React.FC = () => {
 
                             {!loading && !followUpLoading && allVisibleItems.length === 0 && (
                                 <div className="card p-10 text-center">
-                                    <div className="w-14 h-14 rounded-2xl bg-[#f2f0eb] flex items-center justify-center text-green mx-auto mb-4">
+                                    <div className="w-14 h-14 rounded-2xl bg-[var(--bg-elevated)] flex items-center justify-center text-green mx-auto mb-4">
                                         <InboxIcon />
                                     </div>
                                     {hasScope === false ? (
@@ -858,9 +868,9 @@ const EmailSuggestionsPage: React.FC = () => {
                             {!loading && !followUpLoading && allVisibleItems.length > 0 && (
                                 <div className="space-y-5">
                                     {allVisibleItems.map((item) => {
-                                        // ═══════════════════════════════════════════════
+                                        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                                         // REJECTION CARD
-                                        // ═══════════════════════════════════════════════
+                                        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                                         if (item.type === 'rejection') {
                                             const s = item.data;
                                             const busy = actionIds.has(s._id);
@@ -902,7 +912,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                                         </div>
 
                                                         {s.emailSnippet && (
-                                                            <div className="bg-[#f2f0eb] rounded-xl p-4 border border-[#e8e6e1]">
+                                                            <div className="bg-[var(--bg-elevated)] rounded-xl p-4 border border-[var(--border)]">
                                                                 <p className="text-sm text-black/58 leading-relaxed">{s.emailSnippet}</p>
                                                                 {(s.senderName || s.senderEmail) && (
                                                                     <p className="text-xs text-black/38 mt-2">From: {s.senderName || s.senderEmail}</p>
@@ -928,9 +938,9 @@ const EmailSuggestionsPage: React.FC = () => {
                                             );
                                         }
 
-                                        // ═══════════════════════════════════════════════
+                                        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                                         // JOB SUGGESTION CARD
-                                        // ═══════════════════════════════════════════════
+                                        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                                         if (item.type === 'job_suggestion') {
                                             const s = item.data;
                                             const busy = actionIds.has(s._id);
@@ -971,7 +981,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                                             </div>
                                                         </div>
 
-                                                        <div className="bg-[#f2f0eb] rounded-xl p-4 border border-[#e8e6e1]">
+                                                        <div className="bg-[var(--bg-elevated)] rounded-xl p-4 border border-[var(--border)]">
                                                             <p className="font-semibold text-sm text-black/87">{s.emailSubject || 'No subject'}</p>
                                                             {s.emailSnippet && <p className="text-sm text-black/58 leading-relaxed mt-1">{s.emailSnippet}</p>}
                                                         </div>
@@ -991,9 +1001,9 @@ const EmailSuggestionsPage: React.FC = () => {
                                             );
                                         }
 
-                                        // ═══════════════════════════════════════════════
+                                        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                                         // APPLICATION RESPONSE CARD
-                                        // ═══════════════════════════════════════════════
+                                        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                                         if (item.type === 'application_response') {
                                             const s = item.data;
                                             const busy = actionIds.has(s._id);
@@ -1010,7 +1020,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                                     )}
                                                     <div className="p-6 space-y-4">
                                                         <div className="flex items-start gap-4">
-                                                            <div className="w-12 h-12 rounded-2xl bg-[#f2f0eb] flex items-center justify-center text-green font-bold text-lg shrink-0">
+                                                            <div className="w-12 h-12 rounded-2xl bg-[var(--bg-elevated)] flex items-center justify-center text-green font-bold text-lg shrink-0">
                                                                 {companyInitial}
                                                             </div>
                                                             <div className="flex-1 min-w-0">
@@ -1028,7 +1038,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                                                                 target="_blank"
                                                                                 rel="noopener noreferrer"
                                                                                 title="Open in Gmail"
-                                                                                className="w-8 h-8 rounded-lg bg-[#f2f0eb] border border-[#d4d0c8] flex items-center justify-center text-green hover:bg-white transition-colors"
+                                                                                className="w-8 h-8 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border)] flex items-center justify-center text-green hover:bg-white transition-colors"
                                                                             >
                                                                                 <GmailLinkIcon />
                                                                             </a>
@@ -1042,7 +1052,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                                             <ConfidencePill confidence={s.confidence} />
                                                         </div>
 
-                                                        <div className="bg-[#f2f0eb] rounded-xl p-4 border border-[#e8e6e1]">
+                                                        <div className="bg-[var(--bg-elevated)] rounded-xl p-4 border border-[var(--border)]">
                                                             <p className="font-semibold text-sm text-black/87">{s.emailSubject || 'No subject'}</p>
                                                             {s.emailSnippet && <p className="text-sm text-black/58 leading-relaxed mt-1">{s.emailSnippet}</p>}
                                                             {(s.senderName || s.senderEmail) && (
@@ -1090,7 +1100,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                                                     <>
                                                                         <span>Matched:</span>
                                                                         <strong className="text-black/87 font-semibold">{job.companyName} {job.jobTitle}</strong>
-                                                                        <span className="bg-[#f2f0eb] px-2 py-0.5 rounded-pill text-[0.65rem] font-medium">{job.status}</span>
+                                                                        <span className="bg-[var(--bg-elevated)] px-2 py-0.5 rounded-pill text-[0.65rem] font-medium">{job.status}</span>
                                                                     </>
                                                                 ) : (
                                                                     <span className="text-warm font-medium">No matching job found</span>
@@ -1116,9 +1126,9 @@ const EmailSuggestionsPage: React.FC = () => {
                                             );
                                         }
 
-                                        // ═══════════════════════════════════════════════
+                                        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                                         // FOLLOW-UP CARD
-                                        // ═══════════════════════════════════════════════
+                                        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                                         const fu = item.data;
                                         return (
                                             <div key={fu.jobId} className="card relative overflow-hidden border-l-4 border-l-warm">
@@ -1167,7 +1177,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                                     </div>
 
                                                     {fu.draftBody && (
-                                                        <div className="bg-[#f2f0eb] rounded-xl p-4 border border-[#e8e6e1]">
+                                                        <div className="bg-[var(--bg-elevated)] rounded-xl p-4 border border-[var(--border)]">
                                                             <p className="font-semibold text-sm text-black/87">{fu.draftSubject || 'Follow-up on my application'}</p>
                                                             <p className="text-sm text-black/58 leading-relaxed mt-1">{fu.draftBody.slice(0, 150)}...</p>
                                                         </div>
@@ -1202,7 +1212,7 @@ const EmailSuggestionsPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* ── Right Column ── */}
+                    {/* â”€â”€ Right Column â”€â”€ */}
                     <div className="lg:col-span-4 space-y-6">
                         {/* Gmail Status */}
                         <div className="card p-6">
@@ -1215,7 +1225,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                     </span>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-3 p-3 bg-[#f2f0eb] rounded-xl mb-5">
+                            <div className="flex items-center gap-3 p-3 bg-[var(--bg-elevated)] rounded-xl mb-5">
                                 <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-warm-sm">
                                     <MailIcon />
                                 </div>
@@ -1240,7 +1250,7 @@ const EmailSuggestionsPage: React.FC = () => {
                                         <button
                                             key={limit}
                                             onClick={() => handleScanLimitChange(limit)}
-                                            className={`px-3 py-2 text-sm font-semibold rounded-lg text-center transition-all active:scale-95 ${scanLimit === limit ? 'border-2 border-green-accent bg-green-light/30 text-green-accent' : 'border border-cream-ceramic text-black/58 hover:bg-[#f2f0eb]'}`}
+                                            className={`px-3 py-2 text-sm font-semibold rounded-lg text-center transition-all active:scale-95 ${scanLimit === limit ? 'border-2 border-green-accent bg-green-light/30 text-green-accent' : 'border border-cream-ceramic text-black/58 hover:bg-[var(--bg-elevated)]'}`}
                                         >
                                             Last {limit} emails
                                         </button>
@@ -1264,7 +1274,7 @@ const EmailSuggestionsPage: React.FC = () => {
 
             {/* Toast */}
             {toast && (
-                <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 px-5 py-3 rounded-xl text-sm z-50 animate-fade-up shadow-warm-xl ${toast.type === 'err' ? 'bg-error-bg text-error border border-error/20' : 'bg-white text-black/87 border border-[#d4d0c8]'}`}>
+                <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 px-5 py-3 rounded-xl text-sm z-50 animate-fade-up shadow-warm-xl ${toast.type === 'err' ? 'bg-error-bg text-error border border-error/20' : 'bg-white text-black/87 border border-[var(--border)]'}`}>
                     {toast.msg}
                 </div>
             )}
@@ -1282,3 +1292,4 @@ const EmailSuggestionsPage: React.FC = () => {
 };
 
 export default EmailSuggestionsPage;
+

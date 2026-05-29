@@ -1,4 +1,4 @@
-// client/src/pages/ForgotPasswordPage.tsx
+﻿// client/src/pages/ForgotPasswordPage.tsx
 import React, { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -63,7 +63,7 @@ const ForgotPasswordPage: React.FC = () => {
           <>
             <h1
               className="text-2xl font-semibold tracking-tight mb-1.5"
-              style={{ fontFamily: 'Lora, Georgia, serif', color: 'var(--text-primary)' }}
+              style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
             >
               Reset your password
             </h1>
@@ -147,7 +147,7 @@ const ForgotPasswordPage: React.FC = () => {
             </div>
             <h2
               className="text-xl font-semibold mb-2"
-              style={{ fontFamily: 'Lora, Georgia, serif', color: 'var(--text-primary)' }}
+              style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
             >
               Check your inbox
             </h2>

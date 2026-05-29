@@ -321,7 +321,7 @@ export async function getAdminStats(req: Request, res: Response) {
  * Get detailed info for a single user including full usage.
  */
 export async function getUserDetail(req: Request, res: Response) {
-    const { userId } = req.params;
+    const userId = req.params.userId as string;
 
     try {
         const user = await User.findById(userId).select('-passwordHash').lean();
@@ -371,7 +371,7 @@ export async function getUserDetail(req: Request, res: Response) {
  * Get CV library summaries for a user (base CVs only).
  */
 export async function getUserCvLibrary(req: Request, res: Response) {
-    const { userId } = req.params;
+    const userId = req.params.userId as string;
 
     const isJsonResumeLike = (value: unknown): boolean => {
         if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
@@ -417,7 +417,8 @@ export async function getUserCvLibrary(req: Request, res: Response) {
  * Get a base CV detail for template preview.
  */
 export async function getUserCvDetail(req: Request, res: Response) {
-    const { userId, cvId } = req.params;
+    const userId = req.params.userId as string;
+    const cvId = req.params.cvId as string;
 
     try {
         const userExists = await User.exists({ _id: userId });
@@ -456,7 +457,8 @@ export async function getUserCvDetail(req: Request, res: Response) {
  * Generate a PDF preview for a user's CV snapshot (original or current).
  */
 export async function getUserCvPreview(req: Request, res: Response) {
-    const { userId, cvId } = req.params;
+    const userId = req.params.userId as string;
+    const cvId = req.params.cvId as string;
     const mode = (req.query.mode as string) || 'current';
     const template = (req.query.template as string) || undefined;
 
@@ -530,7 +532,7 @@ export async function getUserCvPreview(req: Request, res: Response) {
  * Update user role or plan manually.
  */
 export async function updateUser(req: Request, res: Response) {
-    const { userId } = req.params;
+    const userId = req.params.userId as string;
     const { role, plan, emailVerified, isBlocked } = req.body;
 
     try {
@@ -558,7 +560,7 @@ export async function updateUser(req: Request, res: Response) {
  * Get detailed usage history for a user.
  */
 export async function getUserUsage(req: Request, res: Response) {
-    const { userId } = req.params;
+    const userId = req.params.userId as string;
 
     try {
         const records = await UsageRecord.find({ userId }).sort({ billingPeriodStart: -1 });
@@ -573,7 +575,7 @@ export async function getUserUsage(req: Request, res: Response) {
  * Grant bonus credits to a user.
  */
 export async function adminGrantBonus(req: Request, res: Response) {
-    const { userId } = req.params;
+    const userId = req.params.userId as string;
     const { amount, reason } = req.body;
 
     try {
@@ -595,7 +597,7 @@ export async function adminGrantBonus(req: Request, res: Response) {
  * PATCH /api/admin/users/:userId  { isBlocked: boolean }
  */
 export async function setUserBlocked(req: Request, res: Response) {
-    const { userId } = req.params;
+    const userId = req.params.userId as string;
     const { isBlocked } = req.body;
 
     if (typeof isBlocked !== 'boolean') {
@@ -627,7 +629,7 @@ export async function setUserBlocked(req: Request, res: Response) {
  * Cancel a user's Stripe subscription and revert them to the free plan.
  */
 export async function cancelUserSubscription(req: Request, res: Response) {
-    const { userId } = req.params;
+    const userId = req.params.userId as string;
 
     try {
         const user = await User.findById(userId);

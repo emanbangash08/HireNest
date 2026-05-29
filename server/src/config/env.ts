@@ -52,4 +52,10 @@ export const env = {
     STRIPE_PRICE_STARTER: process.env.STRIPE_PRICE_STARTER,
     STRIPE_PRICE_PRO: process.env.STRIPE_PRICE_PRO,
     STRIPE_PRICE_PREMIUM: process.env.STRIPE_PRICE_PREMIUM,
+    // Adzuna job scraping (free alternative to Apify)
+    ADZUNA_APP_ID: process.env.ADZUNA_APP_ID,
+    ADZUNA_APP_KEY: process.env.ADZUNA_APP_KEY,
+    ADZUNA_COUNTRY: process.env.ADZUNA_COUNTRY,
+    // RapidAPI key (used for JSearch job search and LinkedIn profile scraping)
+    JSEARCH_API_KEY: process.env.JSEARCH_API_KEY,
 };

@@ -127,21 +127,33 @@ const BaseCvLibraryView: React.FC<BaseCvLibraryViewProps> = ({
   return (
     <div className="flex flex-col gap-6 flex-1 overflow-y-auto custom-scrollbar animate-fade-in">
       {/* Header Section */}
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h1 className="text-3xl sm:text-[45px] font-semibold text-green font-manrope leading-tight tracking-tight">
-          Base CV Library
-        </h1>
+      <header className="relative rounded-2xl overflow-hidden border px-6 py-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4" style={{ background: 'var(--bg-surface)', borderColor: 'var(--border)' }}>
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
+            <defs><pattern id="cv-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="var(--accent)" /></pattern></defs>
+            <rect width="100%" height="100%" fill="url(#cv-dots)" />
+          </svg>
+          <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-[0.04]" style={{ backgroundColor: 'var(--accent)' }} />
+        </div>
+        <div className="relative z-10">
+          <p className="text-[11px] uppercase tracking-[0.12em] font-semibold mb-1" style={{ color: 'var(--accent)' }}>CV Manager</p>
+          <h1 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
+            Base CV Library
+          </h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Upload once. Tailor for every application.</p>
+        </div>
         <button
           onClick={onUpload}
-          className="bg-green-accent text-white font-semibold text-sm px-8 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-green-hover transition-all squish whitespace-nowrap"
+          className="relative z-10 flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
+          style={{ background: 'var(--accent)', color: 'white' }}
         >
-          <span className="material-symbols-outlined text-[20px]">upload</span>
-          Upload Base CV
+          <span className="material-symbols-outlined text-[18px]">upload</span>
+          Upload CV
         </button>
       </header>
 
       {/* Filter Bar Section */}
-      <section className="bg-cream rounded-xl p-4 md:p-5 flex flex-col lg:flex-row items-center gap-4 border border-[#bec9c0]/20">
+      <section className="rounded-xl p-4 md:p-5 flex flex-col lg:flex-row items-center gap-4 border" style={{ background: 'var(--bg-surface)', borderColor: 'var(--border)' }}>
         {/* Search Input */}
         <div className="relative w-full lg:flex-grow">
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-black/40 text-[20px]">
@@ -152,7 +164,7 @@ const BaseCvLibraryView: React.FC<BaseCvLibraryViewProps> = ({
             placeholder="Search base CVs..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white border-none rounded-lg pl-10 pr-4 py-3 text-base text-black/87 placeholder:text-black/60 focus:ring-2 focus:ring-green transition-all outline-none"
+            className="w-full bg-white border-none rounded-lg pl-10 pr-4 py-3 text-base text-black/87 placeholder:text-black/60 focus:ring-2 focus:ring-[var(--accent)] transition-all outline-none"
           />
         </div>
         {/* Dropdowns Container */}
@@ -196,8 +208,8 @@ const BaseCvLibraryView: React.FC<BaseCvLibraryViewProps> = ({
       {/* CV List */}
       {filteredCvs.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5 bg-green-light">
-            <span className="material-symbols-outlined text-3xl text-green">folder_open</span>
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5" style={{ background: 'var(--accent-bg)' }}>
+            <span className="material-symbols-outlined text-3xl" style={{ color: 'var(--accent)' }}>folder_open</span>
           </div>
           <h3 className="text-xl font-semibold text-black/87 mb-2">No CVs found</h3>
           <p className="text-base text-black/60 max-w-md">

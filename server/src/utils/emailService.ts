@@ -10,12 +10,33 @@ function createTransporter() {
   return nodemailer.createTransport({
     host: env.SMTP_HOST || 'smtp.gmail.com',
     port: Number(env.SMTP_PORT) || 587,
-    secure: Number(env.SMTP_PORT) === 465, // true for 465, false for 587
+    secure: Number(env.SMTP_PORT) === 465,
     auth: {
       user: env.SMTP_USER,
       pass: env.SMTP_PASS,
     },
+    tls: {
+      rejectUnauthorized: false,
+    },
   });
+}
+
+/**
+ * Verify SMTP connection on startup — logs success or exact failure reason.
+ */
+export async function verifySmtpConnection(): Promise<void> {
+  if (!env.SMTP_USER || !env.SMTP_PASS) {
+    console.warn('[Email] SMTP not configured — email features disabled.');
+    return;
+  }
+  try {
+    const transporter = createTransporter();
+    await transporter.verify();
+    console.log(`[Email] SMTP connection verified — ready to send from ${env.SMTP_USER}`);
+  } catch (err: any) {
+    console.error('[Email] SMTP connection FAILED:', err.message);
+    console.error('[Email] Check SMTP_USER, SMTP_PASS (no spaces), and that Gmail App Password is enabled with 2FA.');
+  }
 }
 
 /**
@@ -35,14 +56,14 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
         <table width="520" cellpadding="0" cellspacing="0" style="background: #1a1a1d; border-radius: 16px; border: 1px solid #2e2e35; overflow: hidden;">
           <tr>
             <td style="padding: 32px 40px 24px; border-bottom: 1px solid #2e2e35;">
-              <span style="font-size: 20px; font-weight: 700; color: #e8b844;">VibeHired</span>
+              <span style="font-size: 20px; font-weight: 700; color: #e8b844;">HireNest</span>
             </td>
           </tr>
           <tr>
             <td style="padding: 32px 40px;">
               <h2 style="margin: 0 0 12px; font-size: 22px; font-weight: 600; color: #f4f4f5;">Reset your password</h2>
               <p style="margin: 0 0 24px; font-size: 15px; color: #a1a1aa; line-height: 1.6;">
-                We received a request to reset the password for your VibeHired account associated with this email address.
+                We received a request to reset the password for your HireNest account associated with this email address.
                 Click the button below to choose a new password. This link expires in <strong style="color:#e4e4e7;">1 hour</strong>.
               </p>
               <a href="${resetUrl}"
@@ -60,7 +81,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
           </tr>
           <tr>
             <td style="padding: 20px 40px; border-top: 1px solid #2e2e35; font-size: 12px; color: #52525b;">
-              &copy; ${new Date().getFullYear()} VibeHired. All rights reserved.
+              &copy; ${new Date().getFullYear()} HireNest. All rights reserved.
             </td>
           </tr>
         </table>
@@ -71,11 +92,11 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
 </html>`;
 
   await transporter.sendMail({
-    from: `"VibeHired" <${env.SMTP_USER}>`,
+    from: `"HireNest" <${env.SMTP_USER}>`,
     to,
-    subject: 'Reset your VibeHired password',
+    subject: 'Reset your HireNest password',
     html,
-    text: `Reset your VibeHired password\n\nClick the link below (expires in 1 hour):\n${resetUrl}\n\nIf you didn't request this, ignore this email.`,
+    text: `Reset your HireNest password\n\nClick the link below (expires in 1 hour):\n${resetUrl}\n\nIf you didn't request this, ignore this email.`,
   });
 }
 
@@ -96,14 +117,14 @@ export async function sendVerificationEmail(to: string, verificationUrl: string)
         <table width="520" cellpadding="0" cellspacing="0" style="background: #1a1a1d; border-radius: 16px; border: 1px solid #2e2e35; overflow: hidden;">
           <tr>
             <td style="padding: 32px 40px 24px; border-bottom: 1px solid #2e2e35;">
-              <span style="font-size: 20px; font-weight: 700; color: #e8b844;">VibeHired</span>
+              <span style="font-size: 20px; font-weight: 700; color: #e8b844;">HireNest</span>
             </td>
           </tr>
           <tr>
             <td style="padding: 32px 40px;">
               <h2 style="margin: 0 0 12px; font-size: 22px; font-weight: 600; color: #f4f4f5;">Verify your email</h2>
               <p style="margin: 0 0 24px; font-size: 15px; color: #a1a1aa; line-height: 1.6;">
-                Welcome to VibeHired! To unlock all AI-powered features, please verify your email address by clicking the button below.
+                Welcome to HireNest! To unlock all AI-powered features, please verify your email address by clicking the button below.
                 This link expires in <strong style="color:#e4e4e7;">24 hours</strong>.
               </p>
               <a href="${verificationUrl}"
@@ -118,7 +139,7 @@ export async function sendVerificationEmail(to: string, verificationUrl: string)
           </tr>
           <tr>
             <td style="padding: 20px 40px; border-top: 1px solid #2e2e35; font-size: 12px; color: #52525b;">
-              &copy; ${new Date().getFullYear()} VibeHired. All rights reserved.
+              &copy; ${new Date().getFullYear()} HireNest. All rights reserved.
             </td>
           </tr>
         </table>
@@ -129,10 +150,10 @@ export async function sendVerificationEmail(to: string, verificationUrl: string)
 </html>`;
 
   await transporter.sendMail({
-    from: `"VibeHired" <${env.SMTP_USER}>`,
+    from: `"HireNest" <${env.SMTP_USER}>`,
     to,
-    subject: 'Verify your VibeHired email',
+    subject: 'Verify your HireNest email',
     html,
-    text: `Verify your VibeHired email\n\nClick the link below (expires in 24 hours):\n${verificationUrl}\n\nWelcome to the future of job hunting!`,
+    text: `Verify your HireNest email\n\nClick the link below (expires in 24 hours):\n${verificationUrl}\n\nWelcome to the future of job hunting!`,
   });
 }

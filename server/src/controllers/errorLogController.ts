@@ -122,7 +122,7 @@ export async function getErrorLogs(req: Request, res: Response) {
 
 export async function getErrorLogById(req: Request, res: Response) {
     try {
-        const { errorId } = req.params;
+        const errorId = req.params.errorId as string;
 
         if (!mongoose.Types.ObjectId.isValid(errorId)) {
             res.status(400).json({ message: 'Invalid error ID' });
@@ -145,7 +145,7 @@ export async function getErrorLogById(req: Request, res: Response) {
 
 export async function resolveErrorLog(req: AuthenticatedRequest, res: Response) {
     try {
-        const { errorId } = req.params;
+        const errorId = req.params.errorId as string;
 
         if (!mongoose.Types.ObjectId.isValid(errorId)) {
             res.status(400).json({ message: 'Invalid error ID' });
@@ -220,7 +220,7 @@ export async function bulkResolveErrors(req: AuthenticatedRequest, res: Response
 
 export async function deleteErrorLog(req: Request, res: Response) {
     try {
-        const { errorId } = req.params;
+        const errorId = req.params.errorId as string;
 
         if (!mongoose.Types.ObjectId.isValid(errorId)) {
             res.status(400).json({ message: 'Invalid error ID' });

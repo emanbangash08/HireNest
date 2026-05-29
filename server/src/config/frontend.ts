@@ -6,8 +6,8 @@ const LOCAL_FRONTEND_ORIGINS = [
 ];
 
 const PRODUCTION_FRONTEND_ORIGINS = [
-    'https://vibehired.ganainy.dev',
-    'https://vibehired-ai.netlify.app',
+    'https://hirenest.ganainy.dev',
+    'https://hirenest-ai.netlify.app',
 ];
 
 function normalizeOrigin(origin: string): string {

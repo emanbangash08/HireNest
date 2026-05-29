@@ -17,6 +17,7 @@ import {
  CvUsageJob,
  getCvOriginalPdf,
  updateEditedPdf,
+ downloadCvPdf,
 } from '../services/cvApi';
 import { JsonResumeSchema } from '../../../server/src/types/jsonresume';
 import { CvSectionDescriptor, CvDynamicPayload } from '../types/cvDescriptor';
@@ -698,6 +699,21 @@ const CVManagementPage: React.FC = () => {
  document.body.removeChild(link);
  }, [editingPdfBase64, activeCv?.filename]);
 
+ const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+ const handleDownloadGeneratedPdf = useCallback(async () => {
+ if (!activeCv?._id) return;
+ setIsGeneratingPdf(true);
+ try {
+   const filename = `${(activeCv.displayName || activeCv.filename || 'cv').replace(/[^a-z0-9_\-]/gi, '_')}.pdf`;
+   await downloadCvPdf(activeCv._id, filename);
+   setToast({ message: 'PDF downloaded successfully', type: 'success' });
+ } catch (err: any) {
+   setToast({ message: err?.message || 'Failed to generate PDF', type: 'error' });
+ } finally {
+   setIsGeneratingPdf(false);
+ }
+ }, [activeCv]);
+
  const handleDeleteCv = (cvId: string) => {
  setConfirmModal({
  show: true,
@@ -1143,6 +1159,17 @@ const CVManagementPage: React.FC = () => {
   <span className="material-symbols-outlined text-base">arrow_back</span>
   Back to Library
   </button>
+  {activeCv && (
+  <button
+  onClick={handleDownloadGeneratedPdf}
+  disabled={isGeneratingPdf}
+  className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-green hover:bg-green/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg shadow-sm hover:shadow-md transition-all"
+  title="Download CV as PDF"
+  >
+  <span className="material-symbols-outlined text-base">{isGeneratingPdf ? 'hourglass_empty' : 'download'}</span>
+  {isGeneratingPdf ? 'Generating...' : 'Download PDF'}
+  </button>
+  )}
   {activeCv && (
   isEditingName ? (
   <input

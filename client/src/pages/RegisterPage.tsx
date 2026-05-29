@@ -1,11 +1,11 @@
-// client/src/pages/RegisterPage.tsx
+﻿// client/src/pages/RegisterPage.tsx
 import React, { useState, FormEvent } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 import { getGoogleLoginUrl, resendVerificationEmail } from '../services/authApi';
 import Spinner from '../components/common/Spinner';
-import { VibeHiredLogo } from '../components/VibeHiredLogo';
+import { VibeHiredLogo as HireNestLogo } from '../components/VibeHiredLogo';
 
 
 
@@ -165,7 +165,7 @@ const RegisterPage: React.FC = () => {
         
         <div className="w-full max-w-[420px] rounded-2xl p-8 text-center" style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)' }}>
           {/* Success confirmation  always shown regardless of email delivery status */}
-          <div className="rounded-xl p-3 mb-6 flex items-center justify-center gap-2" style={{ backgroundColor: 'var(--jade-bg)', border: '1px solid rgba(0,98,65,0.2)' }}>
+          <div className="rounded-xl p-3 mb-6 flex items-center justify-center gap-2" style={{ backgroundColor: 'var(--jade-bg)', border: '1px solid rgba(79,70,229,0.2)' }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--jade)" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12" />
             </svg>
@@ -173,13 +173,13 @@ const RegisterPage: React.FC = () => {
           </div>
 
           <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5"
-            style={{ backgroundColor: 'var(--accent-bg)', border: '1px solid rgba(0,98,65,0.2)' }}>
+            style={{ backgroundColor: 'var(--accent-bg)', border: '1px solid rgba(79,70,229,0.2)' }}>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
               <polyline points="22,6 12,13 2,6" />
             </svg>
           </div>
-          <h1 className="text-2xl font-semibold mb-2" style={{ fontFamily: 'Lora, Georgia, serif', color: 'var(--text-primary)' }}>
+          <h1 className="text-2xl font-semibold mb-2" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
             {emailSendFailed ? 'One more step' : 'Check your inbox'}
           </h1>
           {emailSendFailed ? (
@@ -196,7 +196,7 @@ const RegisterPage: React.FC = () => {
             </>
           )}
           {resendStatus === 'sent' && (
-            <div className="rounded-lg p-3 text-sm mb-4" style={{ backgroundColor: 'var(--jade-bg)', border: '1px solid rgba(0,98,65,0.2)', color: 'var(--jade)' }}>
+            <div className="rounded-lg p-3 text-sm mb-4" style={{ backgroundColor: 'var(--jade-bg)', border: '1px solid rgba(79,70,229,0.2)', color: 'var(--jade)' }}>
               New verification email sent  check your inbox!
             </div>
           )}
@@ -254,14 +254,14 @@ const RegisterPage: React.FC = () => {
 
         {/* Brand */}
         <div className="relative z-10">
-          <VibeHiredLogo size={44} />
+          <HireNestLogo size={44} />
         </div>
 
         {/* Editorial text */}
         <div className="relative z-10 space-y-6">
           <h1
             className="text-4xl xl:text-5xl font-semibold leading-[1.1] tracking-tight"
-            style={{ fontFamily: 'Lora, Georgia, serif', color: 'var(--text-primary)' }}
+            style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
           >
             Your job search,<br />
             <span style={{ color: 'var(--accent)' }}>in one place.</span>
@@ -280,7 +280,7 @@ const RegisterPage: React.FC = () => {
               <li key={step.num} className="flex items-center gap-4">
                 <span
                   className="font-mono text-xs font-semibold w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: 'var(--accent-bg, var(--accent-bg))', color: 'var(--accent)', border: '1px solid rgba(0,98,65,0.2)' }}
+                  style={{ backgroundColor: 'var(--accent-bg, var(--accent-bg))', color: 'var(--accent)', border: '1px solid rgba(79,70,229,0.2)' }}
                 >
                   {step.num}
                 </span>
@@ -303,10 +303,10 @@ const RegisterPage: React.FC = () => {
 
         {/* Heading */}
         <div className="mb-7">
-          <h2 className="text-[1.75rem] font-semibold tracking-tight" style={{ fontFamily: 'Lora, Georgia, serif', color: 'var(--text-primary)' }}>
+          <h2 className="text-[1.75rem] font-semibold tracking-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
             Create account
           </h2>
-          <p className="mt-1 text-sm" style={{ color: 'var(--text-secondary)' }}>Join VibeHired and start your journey</p>
+          <p className="mt-1 text-sm" style={{ color: 'var(--text-secondary)' }}>Join HireNest and start your journey</p>
         </div>
 
         {/* Error alert */}
@@ -452,7 +452,7 @@ const RegisterPage: React.FC = () => {
             style={{
               backgroundColor: 'var(--accent)',
               color: 'var(--text-on-accent)',
-              boxShadow: '0 1px 0 rgba(255,255,255,0.15) inset, 0 2px 8px rgba(0,98,65,0.2)',
+              boxShadow: '0 1px 0 rgba(255,255,255,0.15) inset, 0 2px 8px rgba(79,70,229,0.2)',
               opacity: (isSubmitting || registrationSuccess) ? 0.7 : 1,
               cursor: (isSubmitting || registrationSuccess) ? 'not-allowed' : 'pointer',
             }}
@@ -553,4 +553,6 @@ const RegisterPage: React.FC = () => {
 };
 
 export default RegisterPage;
+
+
 

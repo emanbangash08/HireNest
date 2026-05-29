@@ -17,9 +17,13 @@ export interface CalendarEvent {
     description?: string;
 }
 
+// skipLogoutOn401 prevents the global auth interceptor from logging the user out
+// if a Google integration call fails — Google token expiry is not a HireNest session issue.
+const SKIP_LOGOUT = { skipLogoutOn401: true };
+
 /** Get the user's Google Calendar connection status */
 export const getGoogleCalendarStatus = async (): Promise<GoogleCalendarStatus> => {
-    const response = await axios.get<GoogleCalendarStatus>(`${API_BASE_URL}/auth/google/status`);
+    const response = await axios.get<GoogleCalendarStatus>(`${API_BASE_URL}/auth/google/status`, SKIP_LOGOUT);
     return response.data;
 };
 
@@ -28,13 +32,13 @@ export const getGoogleCalendarStatus = async (): Promise<GoogleCalendarStatus> =
  * Returns the Google consent URL. The caller should redirect `window.location.href` there.
  */
 export const getGoogleConnectUrl = async (): Promise<string> => {
-    const response = await axios.get<{ url: string }>(`${API_BASE_URL}/auth/google/connect`);
+    const response = await axios.get<{ url: string }>(`${API_BASE_URL}/auth/google/connect`, SKIP_LOGOUT);
     return response.data.url;
 };
 
 /** Disconnect Google Calendar from the user's account */
 export const disconnectGoogleCalendar = async (): Promise<void> => {
-    await axios.delete(`${API_BASE_URL}/auth/google/disconnect`);
+    await axios.delete(`${API_BASE_URL}/auth/google/disconnect`, SKIP_LOGOUT);
 };
 
 /** List upcoming events from the user's primary Google Calendar */
@@ -42,7 +46,7 @@ export const listUpcomingEvents = async (options: { maxResults?: number; timeMin
     let url = `${API_BASE_URL}/auth/google/events?maxResults=${options.maxResults || 50}`;
     if (options.timeMin) url += `&timeMin=${encodeURIComponent(options.timeMin)}`;
     if (options.timeMax) url += `&timeMax=${encodeURIComponent(options.timeMax)}`;
-    const response = await axios.get<CalendarEvent[]>(url);
+    const response = await axios.get<CalendarEvent[]>(url, SKIP_LOGOUT);
     return response.data;
 };
 
